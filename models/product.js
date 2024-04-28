@@ -19,11 +19,11 @@ const productSchema = new Schema(
       required: false,
     },
     characteristics: {
-      type: Object,
+      type: String,
       required: false,
     },
     image: {
-      type: String,
+      type: Array,
       required: true,
     },
     price: {

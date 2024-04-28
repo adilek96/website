@@ -35,6 +35,20 @@ const menuData: Menu[] = [
         title: "CCTV solution",
         path: "/products/cctv",
         newTab: false,
+        submenu: [
+          {
+            id: 60,
+            title: "Camera",
+            path: "/products/cctv/camera",
+            newTab: false,
+          },
+          {
+            id: 61,
+            title: "DVR",
+            path: "/products/cctv/dvr",
+            newTab: false,
+          },
+        ],
       },
       {
         id: 45,
@@ -46,18 +60,6 @@ const menuData: Menu[] = [
         id: 46,
         title: "Security and fire alarm system",
         path: "/products/sfas",
-        newTab: false,
-      },
-      {
-        id: 47,
-        title: "Sign Up Page",
-        path: "/signup",
-        newTab: false,
-      },
-      {
-        id: 48,
-        title: "Error Page",
-        path: "/error",
         newTab: false,
       },
     ],

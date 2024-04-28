@@ -1,4 +1,3 @@
-import Email from "next-auth/providers/email";
 import UsersTable from "@/components/UsersTable/UsersTable";
 
 async function getUsers() {

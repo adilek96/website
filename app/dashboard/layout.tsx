@@ -89,7 +89,7 @@ export default function DashboardLayout({
                 Categories
               </Link>
             </li>
-            <li className="hover:opacity-70">
+            <li className="hover:opacity-70 ">
               <Link href="/dashboard/tickets">
                 {" "}
                 <svg
@@ -113,7 +113,7 @@ export default function DashboardLayout({
             </li>
           </ul>
         </div>
-        <div className="h-[100vh] w-[60vw]  rounded-md bg-body-color bg-opacity-20 py-5 pl-2 dark:bg-dark dark:bg-opacity-40">
+        <div className=" h-[100vh] w-[60vw]  overflow-auto  rounded-md bg-body-color bg-opacity-20 py-5 pl-2 dark:bg-dark dark:bg-opacity-40">
           {children}
         </div>
       </div>
