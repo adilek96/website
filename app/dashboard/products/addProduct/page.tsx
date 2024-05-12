@@ -4,11 +4,18 @@ import { useState } from "react";
 import menuData from "@/components/Header/menuData";
 import { storage } from "@/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { notificationState } from "@/store/notificationState";
+import Notification from "@/components/Notification";
+import { notificationMessage } from "@/store/notificationMessage";
 
 export default function AddProduct() {
   const [sub, setSub] = useState(false);
   const [submenu, setSubmenu] = useState([]);
-  //   const [imageUrl, setImageurl] = useState([]);
+  const notification = notificationState((state) => state.notification);
+  const setNotification = notificationState((state) => state.setNotification);
+  const setNotificationMessage = notificationMessage(
+    (state) => state.setNotificationMessage
+  );
 
   const router = useRouter();
 
@@ -41,8 +48,6 @@ export default function AddProduct() {
     const price = e.target.price.value as number;
     const productImage = e.target.image.files;
     const image = [];
-
-    console.log(image.length);
 
     if (productImage === undefined) return console.log("error image uploads");
 
@@ -84,7 +89,7 @@ export default function AddProduct() {
 
       try {
         // Отправка запроса POST для добавления продукта
-        const response = await fetch("api/product", {
+        const response = await fetch("http://localhost:3000/api/product", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -101,20 +106,26 @@ export default function AddProduct() {
         });
 
         if (response.ok) {
-          console.log("Product added successfully");
+          setNotification(true);
+          setNotificationMessage("Product added successfully");
+          location.reload();
         } else {
-          console.log("Failed to add product");
+          setNotification(true);
+          setNotificationMessage("Failed to add product");
         }
       } catch (error) {
         console.log("Error:", error);
       }
     } else {
-      console.log("Error uploading images");
+      setNotification(true);
+      setNotificationMessage("Error uploading images");
     }
   };
 
   return (
     <section className=" flex flex-col items-center justify-center">
+      {notification ? <Notification /> : ""}
+
       <div className="flex w-[90%] justify-start">
         <button
           onClick={() => {
@@ -125,7 +136,6 @@ export default function AddProduct() {
           Back
         </button>
       </div>
-
       <h1 className="mt-5 text-center text-[30px]">Add product</h1>
       <form onSubmit={handleSubmit} className="mt-10 mb-10 w-[90%]">
         <div className=" flex gap-5">
@@ -141,7 +151,7 @@ export default function AddProduct() {
               name="name"
               placeholder="Enter product name"
               required
-              className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+              className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
           </div>
           <div>
@@ -156,7 +166,7 @@ export default function AddProduct() {
                 name="category"
                 placeholder="Select category"
                 required
-                className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+                className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 onChange={categoryHandler}
               >
                 {menuData[1].submenu.map((category) => (
@@ -178,7 +188,7 @@ export default function AddProduct() {
                   name="subcategory"
                   placeholder="Select subcategory"
                   required
-                  className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+                  className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 >
                   {submenu.map((subcategory) => {
                     return subcategory.map((category) => (
@@ -204,7 +214,7 @@ export default function AddProduct() {
             name="description"
             placeholder="Enter description"
             required
-            className="h-[200px] w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+            className="h-[200px] w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -220,7 +230,7 @@ export default function AddProduct() {
             name="characteristics"
             placeholder="Enter product characteristics"
             required
-            className="h-[200px] w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+            className="h-[200px] w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -237,7 +247,7 @@ export default function AddProduct() {
               name="price"
               placeholder="Enter product price"
               required
-              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
           </div>
           <div className="mb-8">
@@ -253,7 +263,7 @@ export default function AddProduct() {
               placeholder="Enter product image"
               multiple
               required
-              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
+              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
           </div>
         </div>

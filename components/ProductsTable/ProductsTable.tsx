@@ -1,34 +1,44 @@
 "use client";
 
+import { notificationState } from "@/store/notificationState";
+import Notification from "@/components/Notification";
+import { notificationMessage } from "@/store/notificationMessage";
+
 export default function ProductsTable({ products }) {
-  //   const deleteUser = async (email: any) => {
-  //     if (email === session.data.user.email) {
-  //       return false;
-  //     }
-  //     try {
-  //       const response = await fetch("/api/allUsers", {
-  //         method: "DELETE",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ email }),
-  //       });
+  const notification = notificationState((state) => state.notification);
+  const setNotification = notificationState((state) => state.setNotification);
+  const setNotificationMessage = notificationMessage(
+    (state) => state.setNotificationMessage
+  );
+  const deleteProduct = async (id: any) => {
+    try {
+      const response = await fetch("/api/allProducts", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
 
-  //       if (!response.ok) {
-  //         throw new Error(`Error: ${response.status}`);
-  //       }
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
 
-  //       const result = await response.json();
+      const result = await response.json();
 
-  //       console.log(result.message);
-  //       location.reload();
-  //     } catch (error) {
-  //       console.error("Ошибка при удалении пользователя:", error);
-  //     }
-  //   };
+      setNotification(true);
+      setNotificationMessage(`${result.message}`);
+      location.reload();
+    } catch (error) {
+      setNotification(true);
+      setNotificationMessage("Ошибка при удалении товара");
+      console.error("Ошибка при удалении товара", error);
+    }
+  };
 
   return (
     <div className="mt-5 px-4">
+      {notification ? <Notification /> : ""}
       <div className="relative overflow-x-auto">
         <table className=" w-full text-left text-sm rtl:text-right">
           <thead className="  text-xs uppercase">
@@ -70,9 +80,16 @@ export default function ProductsTable({ products }) {
                 <td className="px-6 py-4">{product.category}</td>
                 <td className="px-6 py-4">{product.subcategory}</td>
                 <td className="px-6 py-4">{product.price}</td>
-                <td className="px-6 py-4">{product.image}</td>
+                <td className="px-6 py-4">
+                  <img
+                    src={product.image}
+                    width="100"
+                    height="50"
+                    alt="product-image"
+                  />
+                </td>
                 <td
-                  //   onClick={(e) => deleteUser(user.email)}
+                  onClick={(e) => deleteProduct(product.id)}
                   className="cursor-pointer px-6 py-4"
                 >
                   <svg

@@ -18,3 +18,12 @@ export async function GET(req, res) {
       );
     }
   }
+
+
+  export async function DELETE(req, res) {
+    const { id } = await req.json();
+    await connectMongoDB();
+    await Product.deleteOne({ id });
+    return NextResponse.json({ message: "Product Deleted" }, { status: 200 });
+   
+  }
