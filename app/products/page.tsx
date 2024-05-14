@@ -42,7 +42,7 @@ export default function Products() {
                 <SortFilter />
               </div>
               <div className="flex justify-center">
-                <div className="my-10 flex w-[90vw] flex-wrap justify-around gap-y-32">
+                <div className="my-10 flex w-[90vw] flex-wrap justify-around gap-y-12">
                   <Suspense fallback="dsdsadsad">
                     <ProductCard products={products} />
                   </Suspense>

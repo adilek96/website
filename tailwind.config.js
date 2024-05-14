@@ -21,8 +21,9 @@ module.exports = {
       primary: "#8616c7",
       yellow: "#FBB040",
       "input-color": "#41175b",
-      red: "#b91c1c",
+      red: "#E50707",
       "body-color": "#a295b1",
+      gray: "#adaba5",
     },
     screens: {
       xs: "450px",

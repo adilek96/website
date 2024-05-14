@@ -6,10 +6,10 @@ import Product from "@/models/product";
 export async function POST(req: any) {
  
   try {
-    const { name,characteristics, description, image, category,subcategory, price } = await req.json();
+    const { name,characteristics, description, image, category,subcategory, price, sale, salePrice  } = await req.json();
   
     await connectMongoDB();
-    await Product.create({ name, characteristics, image, description,category,subcategory, price });
+    await Product.create({ name, characteristics, image, description,category,subcategory, price, sale, salePrice });
 
     return NextResponse.json({ message: "Product has been added." }, { status: 201 });
   } catch (error) {

@@ -10,7 +10,6 @@ import { notificationMessage } from "@/store/notificationMessage";
 
 export default function AddProduct() {
   const [sub, setSub] = useState(false);
-  const [sale, setSale] = useState<boolean>(false);
   const [submenu, setSubmenu] = useState([]);
   const notification = notificationState((state) => state.notification);
   const setNotification = notificationState((state) => state.setNotification);
@@ -49,7 +48,6 @@ export default function AddProduct() {
     const price = e.target.price.value as number;
     const productImage = e.target.image.files;
     const image = [];
-    const salePrice = e.target.salePrice.value as number;
 
     if (productImage === undefined) return console.log("error image uploads");
 
@@ -104,8 +102,6 @@ export default function AddProduct() {
             category,
             subcategory,
             price,
-            sale,
-            salePrice,
           }),
         });
 
@@ -213,7 +209,8 @@ export default function AddProduct() {
           >
             Product description
           </label>
-          <textarea
+          <input
+            type="text"
             name="description"
             placeholder="Enter description"
             required
@@ -228,7 +225,8 @@ export default function AddProduct() {
           >
             Product characteristics
           </label>
-          <textarea
+          <input
+            type="text"
             name="characteristics"
             placeholder="Enter product characteristics"
             required
@@ -248,7 +246,6 @@ export default function AddProduct() {
               type="number"
               name="price"
               placeholder="Enter product price"
-              min={0}
               required
               className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
@@ -270,44 +267,6 @@ export default function AddProduct() {
             />
           </div>
         </div>
-        <div className=" flex justify-between">
-          <div className="mb-8">
-            <label
-              htmlFor="isSale"
-              className="mb-3 block text-sm font-medium text-dark dark:text-white"
-            >
-              Product is sale?
-            </label>
-            <input
-              onClick={() => setSale(!sale)}
-              name="isSale"
-              type="checkbox"
-              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
-            />
-          </div>
-          <div className="mb-8">
-            <label
-              htmlFor="sale-price"
-              className="mb-3 block text-sm font-medium text-dark dark:text-white"
-            >
-              Product sale price
-            </label>
-            <input
-              type="number"
-              name="salePrice"
-              placeholder="Enter sale price"
-              min={0}
-              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
-              disabled={!sale}
-            />
-          </div>
-        </div>
-
-        {/* {error && (
-                    <div className="mb-8 flex w-full flex-col justify-between rounded-md border border-transparent bg-yellow sm:flex-row sm:items-center">
-                      <p className="p-4">{error}</p>
-                    </div>
-                  )} */}
 
         <button
           type="submit"
