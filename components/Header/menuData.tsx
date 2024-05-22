@@ -21,7 +21,7 @@ const menuData: Menu[] = [
       {
         id: 42,
         title: "Computers",
-        path: "/products/computers",
+        path: `/products/computers`,
         newTab: false,
       },
       {
@@ -33,7 +33,7 @@ const menuData: Menu[] = [
       {
         id: 44,
         title: "CCTV solution",
-        path: "/products/cctv",
+        path: "/products/cctv-solution",
         newTab: false,
         submenu: [
           {
@@ -53,13 +53,13 @@ const menuData: Menu[] = [
       {
         id: 45,
         title: "Audio systems",
-        path: "/products/audio",
+        path: "/products/audio-systems",
         newTab: false,
       },
       {
         id: 46,
         title: "Security and fire alarm system",
-        path: "/products/sfas",
+        path: "/products/security-and-fire-alarm-system",
         newTab: false,
       },
     ],

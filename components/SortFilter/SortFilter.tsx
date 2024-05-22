@@ -1,9 +1,158 @@
-const SortFilter = () => {
+"use client";
+
+import { useState } from "react";
+import menuData from "../Header/menuData";
+import {
+  sortByState,
+  selectedCategoryState,
+  minPriceState,
+  maxPriceState,
+} from "@/store/sortingStore";
+
+const SortFilter = ({ data }) => {
+  // submenu handler
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openSort, setOpenSort] = useState(false);
+
+  const selectedCategory = selectedCategoryState(
+    (state) => state.selectedCategory
+  );
+  const setSelectedCategory = selectedCategoryState(
+    (state) => state.setSelectedCategory
+  );
+  const sortBy = sortByState((state) => state.sortBy);
+  const setSortBy = sortByState((state) => state.setSortBy);
+  const minPrice = minPriceState((state) => state.minPrice);
+  const setMinPrice = minPriceState((state) => state.setMinPrice);
+  const maxPrice = maxPriceState((state) => state.maxPrice);
+  const setMaxPrice = maxPriceState((state) => state.setMaxPrice);
+
+  const selectedItem = menuData[1].submenu.find((item) => item.title === data);
+
+  const openFilterHandler = () => {
+    if (openFilter === false && openSort === true) {
+      return setOpenFilter(true), setOpenSort(false);
+    } else if (openFilter === false && openSort === false) {
+      return setOpenFilter(true);
+    } else if (openFilter === true && openSort === false) {
+      return setOpenFilter(false);
+    }
+  };
+
+  const openSortHandler = () => {
+    if (openSort === false && openFilter === true) {
+      return setOpenSort(true), setOpenFilter(false);
+    } else if (openSort === false && openFilter === false) {
+      return setOpenSort(true);
+    } else if (openSort === true && openFilter === false) {
+      return setOpenSort(false);
+    }
+  };
+
   return (
     <>
-      <div className=" mx-2 flex w-[80vw] flex-wrap justify-end rounded-sm p-2 dark:bg-primary dark:bg-opacity-5">
-        <div className="flex w-16 justify-between">
-          <button className="flex h-7 w-7 items-center justify-center rounded-lg hover:opacity-70 dark:hover:bg-modal">
+      <div className="mx-2 flex h-12 w-[80vw] flex-wrap items-center justify-end rounded-sm dark:bg-primary dark:bg-opacity-5">
+        <div
+          className={`no-scrollbar flex h-full w-[60%] cursor-pointer snap-x snap-mandatory flex-row flex-nowrap items-center justify-around overflow-x-auto overflow-y-hidden scroll-smooth rounded-sm bg-white p-5 px-5 shadow-lg transition-all duration-700 ease-in-out dark:bg-dark ${
+            openSort ? "block" : "hidden"
+          }`}
+        >
+          <div className="flex h-11 w-max snap-start flex-nowrap items-center justify-center gap-3">
+            <p className="whitespace-nowrap pl-5">Sort by:</p>
+            <select
+              name="Sort"
+              placeholder="Select sort"
+              onChange={(e) => setSortBy(e.target.value)}
+              defaultValue={String(sortBy)}
+              className="w-[150px] rounded-md border border-transparent py-1 px-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            >
+              <option
+                value="DateDown"
+                className={sortBy === "DateDown" ? "text-yellow" : undefined}
+              >
+                Date &#8595;
+              </option>
+              <option
+                value="DateUp"
+                className={sortBy === "DateUp" ? "text-yellow" : undefined}
+              >
+                Date &#8593;
+              </option>
+              <option
+                value="Name"
+                className={sortBy === "Name" ? "text-yellow" : undefined}
+              >
+                Name
+              </option>
+              <option
+                value="PriceUp"
+                className={sortBy === "PriceUp" ? "text-yellow" : undefined}
+              >
+                Price &#8593;
+              </option>
+              <option
+                value="PriceDown"
+                className={sortBy === "PriceDown" ? "text-yellow" : undefined}
+              >
+                Price &#8595;
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          className={`no-scrollbar flex h-full w-[70%] cursor-pointer snap-x snap-mandatory flex-row flex-nowrap items-center justify-around overflow-x-auto overflow-y-hidden scroll-smooth rounded-sm bg-white p-5 px-5 shadow-lg transition-all duration-700 ease-in-out dark:bg-dark ${
+            openFilter ? "block" : "hidden"
+          }`}
+        >
+          <div className="ml-5 flex h-11 w-max snap-end flex-nowrap items-center justify-center gap-3">
+            <p className="whitespace-nowrap text-center">Filter by:</p>
+            {selectedItem && selectedItem.submenu ? (
+              <select
+                name="category"
+                placeholder="Select category"
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                defaultValue={String(selectedCategory)}
+                className="w-[150px] rounded-md border border-transparent py-1 px-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+              >
+                <option value="All">Subcategory</option>
+                {selectedItem.submenu.map((sub) => (
+                  <option
+                    key={sub.id}
+                    value={sub.title}
+                    className="whitespace-nowrap"
+                  >
+                    {sub.title}
+                  </option>
+                ))}
+              </select>
+            ) : null}
+            <div className="flex items-center justify-center pr-5">
+              <p className="pr-3">Price:</p>
+              <input
+                type="number"
+                min={0}
+                value={+minPrice}
+                onChange={(e) => setMinPrice(+e.target.value)}
+                className="w-14 rounded-md bg-body-color pl-2 focus:bg-yellow"
+              />
+              <p className="px-2">-</p>
+              <input
+                type="number"
+                min={0}
+                value={+maxPrice}
+                onChange={(e) => setMaxPrice(+e.target.value)}
+                className="w-14 rounded-md bg-body-color pl-2 focus:bg-yellow"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex w-[80px] flex-nowrap items-center justify-center">
+          <button
+            onClick={openSortHandler}
+            className="mx-2 flex h-7 w-7 items-center justify-center rounded-lg hover:opacity-70 dark:hover:bg-modal"
+          >
             <svg
               className="text-gray-800 h-6 w-6 dark:text-white"
               aria-hidden="true"
@@ -22,7 +171,11 @@ const SortFilter = () => {
               />
             </svg>
           </button>
-          <button className="flex h-7 w-7 items-center justify-center rounded-lg hover:opacity-70 dark:hover:bg-modal">
+
+          <button
+            onClick={openFilterHandler}
+            className="flex h-7 w-7 items-center justify-center rounded-lg pr-2 hover:opacity-70 dark:hover:bg-modal"
+          >
             <svg
               className="text-gray-800 h-6 w-6 dark:text-white"
               aria-hidden="true"
@@ -45,4 +198,5 @@ const SortFilter = () => {
     </>
   );
 };
+
 export default SortFilter;

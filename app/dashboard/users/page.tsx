@@ -1,5 +1,6 @@
 import UsersTable from "@/components/UsersTable/UsersTable";
 
+
 async function getUsers() {
   const res = await fetch("http://localhost:3000/api/allUsers");
   if (!res.ok) {
