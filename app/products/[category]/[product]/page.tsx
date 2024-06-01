@@ -2,6 +2,8 @@ import React from "react";
 import { connectMongoDB } from "@/lib/mongodb";
 import Product from "@/models/product";
 import mongoose from "mongoose";
+import Link from "next/link";
+import ImageSwiper from "@/components/ImageSwiper";
 
 async function getProduct(id) {
   await connectMongoDB();
@@ -28,24 +30,77 @@ async function getProduct(id) {
   }
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { product: string };
-}) {
-  const data = await getProduct(params.product);
+export default async function ProductPage({ params }) {
+  let data;
+
+  try {
+    data = await getProduct(params.product);
+  } catch (error) {
+    return (
+      <div className="flex justify-center pt-[180px] pb-[120px]">
+        <div className="container text-center">
+          <h1 className="text-red-600 text-3xl font-bold">Error</h1>
+          <p className="text-lg">
+            Failed to load product. Please try again later.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="flex justify-center overflow-hidden pt-[180px] pb-[120px]">
       <div className="container">
-        <div className=" flex  w-full justify-center">
-          <div className=" w-full ">
-            <div className="flex justify-center ">
-              <div className="h-80 w-[50%] bg-yellow"></div>
-              <div className="h-80 w-[50%] bg-red">
-                <h2 className="mb-8 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight">
+        <div className="flex w-full justify-center">
+          <div className="w-full">
+            <div className="flex flex-wrap justify-center">
+              <div className="h-[500px] w-[300px] sm:w-[50%]">
+                <div className=" w-[95%]">
+                  <ImageSwiper images={data.image} />
+                </div>
+              </div>
+              <div className="h-80 w-[300px] sm:w-[50%]">
+                <h1 className="mb-8 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight">
                   {data.name}
-                </h2>
+                </h1>
+                <div>
+                  <Link
+                    href={`/products/${data.category
+                      .toLowerCase()
+                      .replace(/ /g, "-")}`}
+                  >
+                    {data.category}
+                  </Link>
+                  <span className="text-yellow">
+                    {data.subcategory ? ` / ${data.subcategory}` : null}
+                  </span>
+                </div>
+                <div className="mt-12">
+                  <div>
+                    {data.sale && (
+                      <span className="text-3xl font-bold text-red">
+                        ${data.salePrice}
+                      </span>
+                    )}
+                    <span
+                      className={`${
+                        data.sale
+                          ? "text-lg text-gray line-through"
+                          : "text-3xl"
+                      } font-bold`}
+                    >
+                      {` $${data.price}`}
+                    </span>
+                  </div>
+                  <div className="mt-5 flex gap-5">
+                    <button className="rounded-lg bg-primary px-5 py-2.5 text-center text-lg font-medium transition-all duration-300 ease-in hover:opacity-80">
+                      Add to cart
+                    </button>
+                    <button className="rounded-lg bg-yellow px-5 py-2.5 text-center text-lg font-medium transition-all duration-300 ease-in hover:opacity-80">
+                      Buy now
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="h-80 w-[100%] bg-gray"></div>
