@@ -4,6 +4,7 @@ import Product from "@/models/product";
 import mongoose from "mongoose";
 import Link from "next/link";
 import ImageSwiper from "@/components/ImageSwiper";
+import Accordion from "@/components/Accordion";
 
 async function getProduct(id) {
   await connectMongoDB();
@@ -103,7 +104,16 @@ export default async function ProductPage({ params }) {
                 </div>
               </div>
             </div>
-            <div className="h-80 w-[100%] bg-gray"></div>
+            <div className=" w-[100%] rounded-sm bg-body-color bg-opacity-20 px-5 py-10 dark:bg-primary dark:bg-opacity-10">
+              <div className="mb-10 ">
+                <h2 className="mb-8 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight">
+                  Description
+                </h2>
+                {data.description}
+              </div>
+
+              <Accordion data={data} />
+            </div>
           </div>
         </div>
       </div>

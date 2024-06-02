@@ -210,13 +210,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="bg-primary/10 py-8">
+        <div className="bg-primary  bg-opacity-5 py-8">
           <div className="container">
             <p className="text-center text-base text-body-color dark:text-white">
-              Template by UIdeck and{" "}
-              <a href="https://nextjstemplates.com" rel="nofollow noopener">
-                Next.js Templates
-              </a>
+              website
             </p>
           </div>
         </div>
