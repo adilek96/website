@@ -6,39 +6,58 @@ import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 import BagButton from "./BagButton";
 import { useSession, signOut } from "next-auth/react";
+import axios from "axios";
+import { Menu } from "@/types/menu";
 
 const Header = () => {
-  // Navbar toggle
+  const [menu, setMenu] = useState<Menu[]>(menuData);
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [sticky, setSticky] = useState(false);
+  const [openIndex, setOpenIndex] = useState(-1);
+  const session = useSession();
+
+  useEffect(() => {
+    const fetchSubmenuData = async () => {
+      try {
+        const response = await axios.get("/api/category");
+        const submenuData = response.data;
+
+        // Обновление подкатегорий в разделе "Products"
+        const updatedMenu = menu.map((item) => {
+          if (item.title === "Products") {
+            return {
+              ...item,
+              submenu: Array.isArray(submenuData.data) ? submenuData.data : [],
+            };
+          }
+          return item;
+        });
+
+        setMenu(updatedMenu);
+      } catch (error) {
+        console.error("Failed to fetch submenu data:", error);
+      }
+    };
+
+    fetchSubmenuData();
+  }, []);
+
+  useEffect(() => {
+    const handleStickyNavbar = () => {
+      setSticky(window.scrollY >= 80);
+    };
+
+    window.addEventListener("scroll", handleStickyNavbar);
+    return () => window.removeEventListener("scroll", handleStickyNavbar);
+  }, []);
+
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
-  // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
-  const handleStickyNavbar = () => {
-    if (window.scrollY >= 80) {
-      setSticky(true);
-    } else {
-      setSticky(false);
-    }
+  const handleSubmenu = (index: number) => {
+    setOpenIndex(openIndex === index ? -1 : index);
   };
-  useEffect(() => {
-    window.addEventListener("scroll", handleStickyNavbar);
-  });
-
-  // submenu handler
-  const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(-1);
-    } else {
-      setOpenIndex(index);
-    }
-  };
-
-  // auth session
-  const session = useSession();
 
   return (
     <>
@@ -107,8 +126,8 @@ const Header = () => {
                   }`}
                 >
                   <ul className="block lg:flex lg:space-x-12">
-                    {menuData.map((menuItem, index) => (
-                      <li key={menuItem.id} className="group relative">
+                    {menu.map((menuItem, index) => (
+                      <li key={menuItem._id} className="group relative">
                         {menuItem.path ? (
                           <Link
                             href={menuItem.path}
@@ -137,15 +156,16 @@ const Header = () => {
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
-                              {menuItem.submenu.map((submenuItem) => (
-                                <Link
-                                  href={submenuItem.path}
-                                  key={submenuItem.id}
-                                  className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3"
-                                >
-                                  {submenuItem.title}
-                                </Link>
-                              ))}
+                              {Array.isArray(menuItem.submenu) &&
+                                menuItem.submenu.map((submenuItem) => (
+                                  <Link
+                                    href={submenuItem.path}
+                                    key={submenuItem._id}
+                                    className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3"
+                                  >
+                                    {submenuItem.title}
+                                  </Link>
+                                ))}
                             </div>
                           </>
                         )}
@@ -154,7 +174,6 @@ const Header = () => {
                   </ul>
                 </nav>
               </div>
-
               <div className="flex items-center justify-end pr-16 lg:pr-0">
                 {session?.data ? (
                   <>
@@ -188,18 +207,6 @@ const Header = () => {
                     </Link>
                   </>
                 )}
-                {/* <Link
-                  href="/signin"
-                  className="hidden py-3 px-7 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
-                >
-                  Sign In
-                </Link> */}
-                {/* <Link
-                  href="/signup"
-                  className="ease-in-up hidden rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9"
-                >
-                  Sign Up
-                </Link> */}
                 <div className="flex justify-center">
                   <BagButton />
                   <ThemeToggler />

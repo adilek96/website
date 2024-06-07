@@ -174,7 +174,7 @@ export default function AddProduct() {
                 onChange={categoryHandler}
               >
                 {menuData[1].submenu.map((category) => (
-                  <option key={category.id} value={category.title}>
+                  <option key={category._id} value={category.title}>
                     {category.title}
                   </option>
                 ))}

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import ArrowsDown from "@/public/images/arrows/arrowsDown";
-import ArrowsUp from "@/public/images/arrows/arrowsUp";
+import ArrowsDown from "@/public/images/arrows/ArrowsDown";
+import ArrowsUp from "@/public/images/arrows/ArrowsUp";
 
 export default function Accordion({ data }) {
   const [open, setOpen] = useState(false);

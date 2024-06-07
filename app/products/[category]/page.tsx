@@ -13,8 +13,9 @@ import {
   minPriceState,
   maxPriceState,
 } from "@/store/sortingStore";
+import { Menu } from "@/types/menu";
 
-// Lazy load the ProductCard component
+// Ленивая загрузка компонента карточки продукта
 const ProductCard = lazy(() => import("@/components/ProductCards/ProductCard"));
 
 export default function Products({ params }: { params: { category: string } }) {
@@ -22,6 +23,7 @@ export default function Products({ params }: { params: { category: string } }) {
   const selectedCategory = selectedCategoryState(
     (state) => state.selectedCategory
   );
+  const [menu, setMenu] = useState<Menu[]>(menuData);
   const [totalCount, setTotalCount] = useState(1);
   const sortBy = sortByState((state) => state.sortBy);
   const minPrice = minPriceState((state) => state.minPrice);
@@ -29,49 +31,95 @@ export default function Products({ params }: { params: { category: string } }) {
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [title, setTitle] = useState(null);
+  const [menuLoader, setMenuLoader] = useState(false);
   const router = useRouter();
-  let title = null;
-  let findCategory;
-  menuData.forEach((item) => {
-    if (item.submenu) {
-      findCategory = item.submenu.find((sub) =>
-        sub.path.endsWith(`/${params.category}`)
-      );
-      if (findCategory) {
-        title = findCategory.title;
-      }
-    }
-  });
+
+  // Получаем массив субкатегории и записываем в стейт
+
   useEffect(() => {
-    if (title === null) {
-      return router.push("/error");
-    }
-    const fetchData = async () => {
+    const fetchSubmenuData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/allProducts?category=${title}&subcategory=${selectedCategory}&sortby=${sortBy}&minprice=${minPrice}&maxprice=${maxPrice}&page=${currentPage}`
-        );
-        if (!response.data.data) {
-          throw new Error("No data received");
-        }
-        setTotalCount(response.data.totalCount);
-        setProducts(response.data.data);
+        const response = await axios.get("/api/category");
+        const submenuData = response.data;
+
+        // Обновление подменю в разделе "Products
+        const updatedMenu = menu.map((item) => {
+          if (item.title === "Products") {
+            return {
+              ...item,
+              submenu: Array.isArray(submenuData.data) ? submenuData.data : [],
+            };
+          }
+          return item;
+        });
+
+        setMenu(updatedMenu);
+        setMenuLoader(true);
       } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      } finally {
-        setLoading(false);
+        console.error("Failed to fetch submenu data:", error);
       }
     };
-    fetchData();
-  }, [selectedCategory, sortBy, minPrice, maxPrice]);
+
+    fetchSubmenuData();
+  }, []);
+
+  // Находим обьект Products из меню и находим текущию категорию сравнивая с парамс страници
+  useEffect(() => {
+    if (menuLoader) {
+      const productsObj = menu.find((item) => item.title === "Products");
+      if (productsObj && productsObj.submenu) {
+        const findCategory = productsObj.submenu.find((sub) =>
+          sub.path.endsWith(`/${params.category}`)
+        );
+        if (findCategory) {
+          setTitle(findCategory.title);
+        } else {
+          router.push("/error");
+        }
+      }
+    }
+  }, [menuLoader, params.category]);
+
+  // Получем данные
+  useEffect(() => {
+    if (title !== null) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            `/api/allProducts?category=${title}&subcategory=${selectedCategory}&sortby=${sortBy}&minprice=${minPrice}&maxprice=${maxPrice}&page=${currentPage}`
+          );
+          if (!response.data.data) {
+            throw new Error("No data received");
+          }
+          setTotalCount(response.data.totalCount);
+          setProducts(response.data.data);
+        } catch (error) {
+          setError(error.message);
+          setLoading(false);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [title, selectedCategory, sortBy, minPrice, maxPrice, currentPage]);
+
+  if (!menuLoader) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
+
   return (
     <>
       <section className="flex justify-center overflow-hidden pt-[180px] pb-[120px]">
         <div className="container">
-          <div className=" flex  w-full justify-center">
-            <div className=" w-full ">
-              <div className="flex justify-center ">
+          <div className="flex w-full justify-center">
+            <div className="w-full">
+              <div className="flex justify-center">
                 <h2 className="mb-8 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight">
                   {title}
                 </h2>
