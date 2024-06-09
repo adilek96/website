@@ -1,6 +1,13 @@
+"use client";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function ProductCard({ products }: { products: any }) {
+  const { data: session, status } = useSession();
+  const cardHandler = async () => {
+    console.log(session);
+  };
+
   return (
     <>
       {products.map((items) => {
@@ -73,7 +80,10 @@ export default function ProductCard({ products }: { products: any }) {
                   </span>
                 </div>
 
-                <button className="rounded-lg  bg-primary px-5 py-2.5 text-center text-sm font-medium transition-all duration-300 ease-in hover:opacity-80  ">
+                <button
+                  onClick={() => cardHandler()}
+                  className="rounded-lg  bg-primary px-5 py-2.5 text-center text-sm font-medium transition-all duration-300 ease-in hover:opacity-80  "
+                >
                   Add to cart
                 </button>
               </div>
