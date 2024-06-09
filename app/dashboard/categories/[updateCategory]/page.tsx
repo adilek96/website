@@ -1,31 +1,6 @@
 import React from "react";
-import { connectMongoDB } from "@/lib/mongodb";
 import Link from "next/link";
-import Category from "@/models/category";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import CategoryUpdatingForm from "@/components/CategoryUpdatingForm";
-
-// async function CategoryAddingAction(formData) {
-//   "use server";
-//   const title = formData.get("title");
-//   const path = formData.get("path");
-//   const newTabBoolean = formData.get("newtab"); // Convert to boolean
-//   const newTab = newTabBoolean === "true" ? true : false;
-
-//   try {
-//     await connectMongoDB();
-//     await Category.create({
-//       title,
-//       path,
-//       newTab,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   revalidatePath("/dashboard/categories");
-//   redirect("/dashboard/categories");
-// }
 
 export default async function UpdateCategory({
   params,

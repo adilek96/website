@@ -1,7 +1,9 @@
 "use client";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import menuData from "@/components/Header/menuData";
+import { Menu } from "@/types/menu";
 import { storage } from "@/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { notificationState } from "@/store/notificationState";
@@ -11,7 +13,8 @@ import { notificationMessage } from "@/store/notificationMessage";
 export default function AddProduct() {
   const [sub, setSub] = useState(false);
   const [sale, setSale] = useState<boolean>(false);
-  const [submenu, setSubmenu] = useState([]);
+  const [subMenu, setSubmenu] = useState([]);
+  const [menu, setMenu] = useState<Menu[]>(menuData);
   const notification = notificationState((state) => state.notification);
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
@@ -20,13 +23,41 @@ export default function AddProduct() {
 
   const router = useRouter();
 
+  // получение категорий
+
+  useEffect(() => {
+    const fetchSubmenuData = async () => {
+      try {
+        const response = await axios.get("/api/category");
+        const submenuData = response.data;
+
+        // Обновление подкатегорий в разделе "Products"
+        const updatedMenu = menu.map((item) => {
+          if (item.title === "Products") {
+            return {
+              ...item,
+              submenu: Array.isArray(submenuData.data) ? submenuData.data : [],
+            };
+          }
+          return item;
+        });
+
+        setMenu(updatedMenu);
+      } catch (error) {
+        console.error("Failed to fetch submenu data:", error);
+      }
+    };
+
+    fetchSubmenuData();
+  }, []);
+
   const categoryHandler = (e) => {
     const selectedValue = e.target.value;
-    const selectedCategoryObj = menuData[1].submenu.find(
+    const selectedCategoryObj = menu[1].submenu.find(
       (category) => category.title === selectedValue
     );
 
-    if (selectedCategoryObj && selectedCategoryObj.submenu) {
+    if (selectedCategoryObj && selectedCategoryObj.submenu.length > 0) {
       setSub(true);
       setSubmenu([selectedCategoryObj.submenu]);
     } else {
@@ -173,20 +204,20 @@ export default function AddProduct() {
                 className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 onChange={categoryHandler}
               >
-                {menuData[1].submenu.map((category) => (
+                {menu[1].submenu.map((category) => (
                   <option key={category._id} value={category.title}>
                     {category.title}
                   </option>
                 ))}
               </select>
             </div>
-            {sub && (
+            {subMenu.length > 0 && sub ? (
               <div className="mb-8">
                 <label
                   htmlFor="subcategory"
                   className="mb-3 block text-sm font-medium text-dark dark:text-white"
                 >
-                  Product category
+                  Product subcategory
                 </label>
                 <select
                   name="subcategory"
@@ -194,16 +225,16 @@ export default function AddProduct() {
                   required
                   className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 >
-                  {submenu.map((subcategory) => {
+                  {subMenu.map((subcategory) => {
                     return subcategory.map((category) => (
-                      <option key={category.id} value={category.title}>
+                      <option key={category._id} value={category.title}>
                         {category.title}
                       </option>
                     ));
                   })}
                 </select>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
         <div className="mb-8">
@@ -213,6 +244,7 @@ export default function AddProduct() {
           >
             Product description
           </label>
+
           <textarea
             name="description"
             placeholder="Enter description"

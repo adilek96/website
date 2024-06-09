@@ -10,7 +10,7 @@ export async function subDeleteAction(id,  updateCategory) {
   const subId = new ObjectId(id);
   const objId = new ObjectId(updateCategory.updateCategory);
 
-  console.log(subId)
+ 
   try {
     await connectMongoDB();
     await Category.findByIdAndUpdate(
