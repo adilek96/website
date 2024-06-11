@@ -1,13 +1,38 @@
 "use client";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 export default function ProductCard({ products }: { products: any }) {
-  const { data: session, status } = useSession();
-  const cardHandler = async () => {
-    console.log(session);
+  const { data, status } = useSession();
+
+  const addToCart = async (productId, userEmail) => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/addToCart", {
+        productId,
+        userEmail,
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to add to cart");
+      }
+
+      console.log("Product added to cart");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  const addHandler = (e) => {
+    const value = e.target.getAttribute("data-value");
+    console.log(data.user.email);
+
+    if (data === null && status === "unauthenticated") {
+      localStorage.setItem("productId", value);
+    } else {
+      addToCart(value, data.user.email);
+    }
+  };
   return (
     <>
       {products.map((items) => {
@@ -81,7 +106,8 @@ export default function ProductCard({ products }: { products: any }) {
                 </div>
 
                 <button
-                  onClick={() => cardHandler()}
+                  onClick={(e) => addHandler(e)}
+                  data-value={items._id}
                   className="rounded-lg  bg-primary px-5 py-2.5 text-center text-sm font-medium transition-all duration-300 ease-in hover:opacity-80  "
                 >
                   Add to cart

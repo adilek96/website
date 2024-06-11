@@ -8,7 +8,6 @@ import BagButton from "./BagButton";
 import { useSession, signOut } from "next-auth/react";
 import axios from "axios";
 import { Menu } from "@/types/menu";
-import ProductBag from "../ProductBag";
 
 const Header = () => {
   const [menu, setMenu] = useState<Menu[]>(menuData);
@@ -216,7 +215,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <ProductBag />
       </header>
     </>
   );
