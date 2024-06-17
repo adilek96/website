@@ -1,3 +1,4 @@
+import Notification from "@/components/Notification";
 import Link from "next/link";
 
 export default function DashboardLayout({
@@ -114,6 +115,7 @@ export default function DashboardLayout({
           </ul>
         </div>
         <div className=" h-[100vh] w-[60vw]  overflow-auto  rounded-md bg-body-color bg-opacity-20 py-5 pl-2 dark:bg-dark dark:bg-opacity-40">
+          <Notification />
           {children}
         </div>
       </div>

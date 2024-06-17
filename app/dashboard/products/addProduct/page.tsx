@@ -7,7 +7,6 @@ import { Menu } from "@/types/menu";
 import { storage } from "@/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { notificationState } from "@/store/notificationState";
-import Notification from "@/components/Notification";
 import { notificationMessage } from "@/store/notificationMessage";
 
 export default function AddProduct() {
@@ -15,7 +14,6 @@ export default function AddProduct() {
   const [sale, setSale] = useState<boolean>(false);
   const [subMenu, setSubmenu] = useState([]);
   const [menu, setMenu] = useState<Menu[]>(menuData);
-  const notification = notificationState((state) => state.notification);
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
     (state) => state.setNotificationMessage
@@ -159,8 +157,6 @@ export default function AddProduct() {
 
   return (
     <section className=" flex flex-col items-center justify-center">
-      {notification ? <Notification /> : ""}
-
       <div className="flex w-[90%] justify-start">
         <button
           onClick={() => {

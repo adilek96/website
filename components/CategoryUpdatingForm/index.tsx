@@ -15,7 +15,6 @@ export default function CategoryUpdatingForm(updateCategory) {
   const [subMenu, setSubMenu] = useState([]);
   const [subAdd, setSubAdd] = useState(false);
 
-  const notification = notificationState((state) => state.notification);
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
     (state) => state.setNotificationMessage
@@ -157,7 +156,6 @@ export default function CategoryUpdatingForm(updateCategory) {
             +
           </button>
         </div>
-        {notification ? <Notification /> : null}
       </div>
     </>
   );

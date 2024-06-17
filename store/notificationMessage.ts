@@ -1,12 +1,12 @@
 import {create} from "zustand"
 
 interface Notification {
-    notification: string;
+    notificationMessage: string;
     setNotificationMessage: (isActive: string) => void
 
 }
 
 export const notificationMessage = create<Notification>()((set) => ({
-    notification: "",
-    setNotificationMessage: (isActive) => set({ notification: isActive }),
+    notificationMessage: "",
+    setNotificationMessage: (isActive) => set({ notificationMessage: isActive }),
   }))

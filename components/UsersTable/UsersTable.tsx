@@ -1,11 +1,9 @@
 "use client";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { notificationState } from "@/store/notificationState";
-import Notification from "@/components/Notification";
 import { notificationMessage } from "@/store/notificationMessage";
 
 export default function UsersTable({ users }) {
-  const notification = notificationState((state) => state.notification);
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
     (state) => state.setNotificationMessage
@@ -44,7 +42,6 @@ export default function UsersTable({ users }) {
 
   return (
     <div className="mt-5 px-4">
-      {notification ? <Notification /> : ""}
       <div className="relative overflow-x-auto">
         <table className=" w-full text-left text-sm rtl:text-right">
           <thead className="  text-xs uppercase">

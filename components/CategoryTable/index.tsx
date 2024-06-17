@@ -7,7 +7,6 @@ import DeleteSvg from "@/public/images/delete/DeleteSvg";
 import Link from "next/link";
 
 export default function CategoryTable({ categories }) {
-  const notification = notificationState((state) => state.notification);
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
     (state) => state.setNotificationMessage
@@ -41,7 +40,6 @@ export default function CategoryTable({ categories }) {
 
   return (
     <div className="mt-5 px-4">
-      {notification ? <Notification /> : ""}
       <div className="relative flex flex-wrap justify-center gap-10 overflow-x-auto">
         {categories.data.map((item) => {
           return (

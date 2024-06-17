@@ -2,9 +2,18 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { notificationState } from "@/store/notificationState";
+import { notificationMessage } from "@/store/notificationMessage";
+import { shopModalState } from "@/store/shopModalState";
 
 export default function ProductCard({ products }: { products: any }) {
   const { data, status } = useSession();
+
+  const setNotification = notificationState((state) => state.setNotification);
+  const setNotificationMessage = notificationMessage(
+    (state) => state.setNotificationMessage
+  );
+  const setShopModal = shopModalState((state) => state.setShopModal);
 
   const addToCart = async (productId, userEmail) => {
     try {
@@ -17,15 +26,19 @@ export default function ProductCard({ products }: { products: any }) {
         throw new Error("Failed to add to cart");
       }
 
-      console.log("Product added to cart");
+      return (
+        setShopModal(true), setNotificationMessage("Product added to cart")
+      );
     } catch (error) {
-      console.error(error);
+      return (
+        setNotification(true),
+        setNotificationMessage("Somthing wrong, try its later")
+      );
     }
   };
 
   const addHandler = (e) => {
     const value = e.target.getAttribute("data-value");
-    console.log(data.user.email);
 
     if (data === null && status === "unauthenticated") {
       localStorage.setItem("productId", value);
@@ -108,7 +121,7 @@ export default function ProductCard({ products }: { products: any }) {
                 <button
                   onClick={(e) => addHandler(e)}
                   data-value={items._id}
-                  className="rounded-lg  bg-primary px-5 py-2.5 text-center text-sm font-medium transition-all duration-300 ease-in hover:opacity-80  "
+                  className="rounded-lg bg-primary  px-5 py-2.5 text-center text-sm font-medium text-white transition-all duration-300 ease-in hover:opacity-80  "
                 >
                   Add to cart
                 </button>

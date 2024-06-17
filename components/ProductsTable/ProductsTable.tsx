@@ -1,11 +1,9 @@
 "use client";
 
 import { notificationState } from "@/store/notificationState";
-import Notification from "@/components/Notification";
 import { notificationMessage } from "@/store/notificationMessage";
 
 export default function ProductsTable({ products }) {
-  const notification = notificationState((state) => state.notification);
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
     (state) => state.setNotificationMessage
@@ -38,7 +36,6 @@ export default function ProductsTable({ products }) {
 
   return (
     <div className="mt-5 px-4">
-      {notification ? <Notification /> : ""}
       <div className="relative overflow-x-auto">
         <table className=" w-full text-left text-sm rtl:text-right">
           <thead className="  text-xs uppercase">

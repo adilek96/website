@@ -8,12 +8,14 @@ import BagButton from "./BagButton";
 import { useSession, signOut } from "next-auth/react";
 import axios from "axios";
 import { Menu } from "@/types/menu";
+import ShoppingCard from "../ShoppingCard";
 
 const Header = () => {
   const [menu, setMenu] = useState<Menu[]>(menuData);
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
   const [openIndex, setOpenIndex] = useState(-1);
+  const [shopCardTrigger, setShopCardTrigger] = useState(false);
   const session = useSession();
 
   useEffect(() => {
@@ -208,7 +210,23 @@ const Header = () => {
                   </>
                 )}
                 <div className="flex justify-center">
-                  <BagButton />
+                  <div
+                    onClick={() => setShopCardTrigger(!shopCardTrigger)}
+                    className="group relative "
+                  >
+                    <BagButton />
+
+                    <div
+                      className={`submenu  absolute  right-0   rounded-md bg-white p-4 opacity-0  shadow-lg transition-[top] duration-300 dark:bg-dark  lg:group-hover:visible lg:group-hover:top-full lg:group-hover:opacity-100 ${
+                        shopCardTrigger
+                          ? "visible top-[110%]   opacity-100"
+                          : "invisible"
+                      }`}
+                    >
+                      <ShoppingCard />
+                    </div>
+                  </div>
+
                   <ThemeToggler />
                 </div>
               </div>
