@@ -90,10 +90,15 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
+    birthday: {
+      type: Date,
+      required: false,
+    },
     phone: {
       type: String,
       required: false,
     },
+
     addresses: [addressSchema],
     role: {
       type: String,

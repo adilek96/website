@@ -12,12 +12,39 @@ export default function ShoppingCard() {
   const [post, setPost] = useState(false);
   const shopModal = shopModalState((state) => state.shopModal);
 
-  const getUserShoppingBag = async () => {
+  const getProductUseStorage = async (productArr) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/productBag?email=${data.user.email}`
+      const response = await axios.post(
+        "http://localhost:3000/api/productStorage",
+        {
+          products: productArr,
+        }
       );
 
+      return response.data.products; // Возвращаем данные или обрабатываем результат запроса по необходимости
+    } catch (error) {
+      console.error("Error sending products to server:", error);
+      return false; // Возвращаем false в случае ошибки
+    }
+  };
+
+  // при авторизированном юзере
+  const getUserShoppingBag = async () => {
+    let productArr = JSON.parse(localStorage.getItem("productId")) || [];
+    console.log(productArr);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/productBag?email=${data.user.email}`,
+        {
+          products: productArr,
+        }
+      );
+
+      if (response.status !== 201) {
+        throw new Error("Failed to add to cart");
+      }
+
+      localStorage.removeItem("productId");
       return response.data.products;
     } catch (error) {
       return false;
@@ -25,45 +52,106 @@ export default function ShoppingCard() {
   };
 
   const addItemInShoppingBag = async (productId) => {
-    try {
-      const response = await axios.post("http://localhost:3000/api/addToCart", {
-        productId,
-        userEmail: data.user.email,
-      });
+    if (status === "authenticated") {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/addToCart",
+          {
+            productId,
+            userEmail: data.user.email,
+          }
+        );
 
-      if (response.status !== 200) {
-        throw new Error("Failed to add to cart");
+        if (response.status !== 200) {
+          throw new Error("Failed to add to cart");
+        }
+        setPost(true);
+      } catch (error) {
+        return false;
       }
+    } else {
+      let productArr = JSON.parse(localStorage.getItem("productId")) || [];
+
+      // Найти продукт в массиве
+      let productIndex = productArr.findIndex(
+        (item) => item.productId === productId
+      );
+
+      if (productIndex !== -1) {
+        // Если продукт найден, увеличить количество
+        productArr[productIndex].quantity += 1;
+      } else {
+        // Если продукт не найден, добавить новый объект продукта
+        productArr.push({
+          productId: productId,
+          quantity: 1,
+        });
+      }
+
+      localStorage.setItem("productId", JSON.stringify(productArr));
       setPost(true);
-    } catch (error) {
-      return false;
     }
   };
 
   const deleteItemInShoppingBag = async (productId) => {
-    try {
-      const response = await axios.delete(
-        "http://localhost:3000/api/addToCart",
-        {
-          data: {
-            productId,
-            userEmail: data.user.email,
-          },
-        }
-      );
+    if (status === "authenticated") {
+      try {
+        const response = await axios.delete(
+          "http://localhost:3000/api/addToCart",
+          {
+            data: {
+              productId,
+              userEmail: data.user.email,
+            },
+          }
+        );
 
-      if (response.status !== 200) {
-        throw new Error("Failed to add to cart");
+        if (response.status !== 200) {
+          throw new Error("Failed to add to cart");
+        }
+
+        setPost(true);
+      } catch (error) {
+        return false;
       }
+    } else {
+      let productArr = JSON.parse(localStorage.getItem("productId")) || [];
+
+      // Найти продукт в массиве
+      let productIndex = productArr.findIndex(
+        (item) => item.productId === productId
+      );
+      productArr[productIndex].quantity -= 1;
+      if (productArr[productIndex].quantity === 0) {
+        productArr.splice(productIndex, 1);
+      }
+
+      localStorage.setItem("productId", JSON.stringify(productArr));
       setPost(true);
-    } catch (error) {
-      return false;
     }
   };
 
   useEffect(() => {
     if (status === "authenticated") {
       getUserShoppingBag().then((res) => {
+        if (res === false) {
+          setIsLoad(false);
+        } else {
+          // Calculate total price
+          const price = res.reduce((acc, item) => {
+            const itemPrice = item.sale ? item.salePrice : item.price;
+            return acc + itemPrice * item.quantity;
+          }, 0);
+          setTotalPrice(price);
+          setUserCart(res);
+          setIsLoad(true);
+          setPost(false);
+        }
+      });
+    } else {
+      // используем локал сторедж если юзер не авторизован
+      const productArr = JSON.parse(localStorage.getItem("productId")) || [];
+      getProductUseStorage(productArr).then((res) => {
         if (res === false) {
           setIsLoad(false);
         } else {

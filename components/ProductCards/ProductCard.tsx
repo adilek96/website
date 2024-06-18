@@ -41,7 +41,26 @@ export default function ProductCard({ products }: { products: any }) {
     const value = e.target.getAttribute("data-value");
 
     if (data === null && status === "unauthenticated") {
-      localStorage.setItem("productId", value);
+      let productArr = JSON.parse(localStorage.getItem("productId")) || [];
+
+      // Найти продукт в массиве
+      let productIndex = productArr.findIndex(
+        (item) => item.productId === value
+      );
+
+      if (productIndex !== -1) {
+        // Если продукт найден, увеличить количество
+        productArr[productIndex].quantity += 1;
+      } else {
+        // Если продукт не найден, добавить новый объект продукта
+        productArr.push({
+          productId: value,
+          quantity: 1,
+        });
+      }
+
+      localStorage.setItem("productId", JSON.stringify(productArr));
+      setShopModal(true), setNotificationMessage("Product added to cart");
     } else {
       addToCart(value, data.user.email);
     }

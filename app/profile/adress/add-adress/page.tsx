@@ -1,12 +1,12 @@
-import ProfileCard from "@/components/ProfileCard";
+import AdressAddingForm from "@/components/AdressAddingForm";
 import { authConfig } from "@/configs/auth";
 import { getServerSession } from "next-auth/next";
 
-export default async function Profile() {
+export default async function AddAdress() {
   const session = await getServerSession(authConfig);
   return (
     <>
-      <ProfileCard session={session} />
+      <AdressAddingForm session={session} />
     </>
   );
 }
