@@ -10,7 +10,7 @@ const addressSchema = new Schema({
     type: String,
     required: true,
   },
-  state: {
+  district: {
     type: String,
     required: true,
   },

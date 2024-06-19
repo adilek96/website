@@ -12,8 +12,11 @@ export default function AdressLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="my-10 ">
-      <ProfileHeader ProfileLinks={ProfileLinks} />
+    <div className="my-10 w-full ">
+      <div className="flex justify-center">
+        <ProfileHeader ProfileLinks={ProfileLinks} />
+      </div>
+
       {children}
     </div>
   );

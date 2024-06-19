@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { shopModalState } from "@/store/shopModalState";
+import { useRouter } from "next/navigation";
 
 export default function ShoppingCard() {
+  const router = useRouter();
   const { data, status } = useSession();
   const [userCart, setUserCart] = useState([]);
   const [isLoad, setIsLoad] = useState(false);
@@ -31,7 +33,7 @@ export default function ShoppingCard() {
   // при авторизированном юзере
   const getUserShoppingBag = async () => {
     let productArr = JSON.parse(localStorage.getItem("productId")) || [];
-    console.log(productArr);
+
     try {
       const response = await axios.post(
         `http://localhost:3000/api/productBag?email=${data.user.email}`,
@@ -169,6 +171,14 @@ export default function ShoppingCard() {
     }
   }, [status, post, shopModal]);
 
+  const purchaseHandle = () => {
+    if (status === "authenticated") {
+      router.push("/purchase");
+    } else {
+      router.push("/signin");
+    }
+  };
+
   return (
     <div className="h-[80vh] w-[90vw] md:h-[500px] md:w-[380px] ">
       <h2 className="mt-5 text-center text-2xl font-bold">Shopping bag</h2>
@@ -230,7 +240,10 @@ export default function ShoppingCard() {
               <p>Total:</p>
               <p>${totalPrice}</p>
             </div>
-            <button className="mb-5 flex items-center justify-center rounded-md bg-yellow px-6 py-2 font-bold  text-white  transition-all  duration-700  ease-in-out hover:bg-opacity-90 hover:shadow-signUp">
+            <button
+              onClick={purchaseHandle}
+              className="mb-5 flex items-center justify-center rounded-md bg-yellow px-6 py-2 font-bold  text-white  transition-all  duration-700  ease-in-out hover:bg-opacity-90 hover:shadow-signUp"
+            >
               Get to Purchase
             </button>
           </div>

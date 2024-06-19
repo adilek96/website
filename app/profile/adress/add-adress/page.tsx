@@ -5,8 +5,8 @@ import { getServerSession } from "next-auth/next";
 export default async function AddAdress() {
   const session = await getServerSession(authConfig);
   return (
-    <>
-      <AdressAddingForm session={session} />
-    </>
+    <div className="flex items-center justify-center">
+      <AdressAddingForm session={session} addressId={null} />
+    </div>
   );
 }

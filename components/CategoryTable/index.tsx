@@ -12,7 +12,6 @@ export default function CategoryTable({ categories }) {
     (state) => state.setNotificationMessage
   );
   const deleteCategory = async (id: any) => {
-    console.log(id);
     try {
       const response = await fetch("/api/category", {
         method: "DELETE",
