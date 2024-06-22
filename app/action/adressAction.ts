@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { ObjectId } from 'mongodb';
 
 export async function adressAction(formData, userId, addressId) {
+  "use server";
   const street = formData.get("street");
   const city = formData.get("city");
   const country = formData.get("country");

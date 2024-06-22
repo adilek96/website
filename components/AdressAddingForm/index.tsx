@@ -233,7 +233,7 @@ export default function AddressAddingForm({ session, addressId }) {
             htmlFor="postalCode"
             className="mb-3 block text-sm font-medium text-dark dark:text-white"
           >
-            PostalCode
+            Postal code (ZIP)
           </label>
           <input
             type="text"

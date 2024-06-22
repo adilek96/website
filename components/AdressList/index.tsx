@@ -6,6 +6,7 @@ import { notificationMessage } from "@/store/notificationMessage";
 import DeleteSvg from "@/public/images/delete/DeleteSvg";
 import Link from "next/link";
 import Loading from "@/app/loading";
+import AddressCard from "../AddressCard";
 
 export default function AddressList({ session }) {
   const [addresses, setAddresses] = useState([]);
@@ -15,6 +16,8 @@ export default function AddressList({ session }) {
   );
   const notification = notificationState((state) => state.notification);
   const [loading, setLoading] = useState(true);
+
+  const bgcolor = "bg-primary bg-opacity-20";
 
   useEffect(() => {
     fetchData();
@@ -70,43 +73,7 @@ export default function AddressList({ session }) {
             {addresses.map((item) => (
               <div key={item._id} className="relative">
                 <Link href={`/profile/adress/${item._id}`}>
-                  <div className="  h-[200px] w-[270px] rounded-md bg-primary bg-opacity-10 p-5 shadow-md">
-                    <div className=" flex flex-col ">
-                      <div className=" flex justify-between">
-                        <div>
-                          <p>
-                            <b>
-                              <i>City:</i>
-                            </b>
-                          </p>
-                          <span className="font-bold text-primary">
-                            {item.city}
-                          </span>
-                        </div>
-                        <div>
-                          <p>
-                            <b>
-                              <i>ZIP:</i>
-                            </b>
-                          </p>
-                          <span className="font-bold text-primary">
-                            {item.postalCode}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div>
-                        <p>
-                          <b>
-                            <i>Street:</i>
-                          </b>
-                        </p>
-                        <span className="font-bold text-primary">
-                          {item.street}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  <AddressCard item={item} bgcolor={bgcolor} />
                 </Link>
                 <button
                   className=" absolute bottom-4 right-4 flex justify-end opacity-60 hover:opacity-100"

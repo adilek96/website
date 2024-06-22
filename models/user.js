@@ -51,6 +51,11 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  shippingAddressId: {
+    type: Schema.Types.ObjectId,
+    ref: "Address",
+    required: true,
+  },
   status: {
     type: String,
     enum: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
