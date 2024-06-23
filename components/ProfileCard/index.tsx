@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { profileUpdateAction } from "@/app/action/profileUpdateAction";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
+import Image from "next/image";
 
 export default function ProfileCard({ session }) {
   const setNotification = notificationState((state) => state.setNotification);
@@ -46,10 +47,12 @@ export default function ProfileCard({ session }) {
   return (
     <div>
       <div className="relative mx-auto -mt-16 h-32 w-32 overflow-hidden rounded-full border-4 border-white">
-        <img
+        <Image
           className="h-32 object-cover object-center"
           src={image}
           alt="Woman looking front"
+          width={320}
+          height={320}
         />
       </div>
       <form onSubmit={handleSubmit}>

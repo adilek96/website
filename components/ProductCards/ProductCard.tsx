@@ -5,6 +5,7 @@ import axios from "axios";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
 import { shopModalState } from "@/store/shopModalState";
+import Image from "next/image";
 
 export default function ProductCard({ products }: { products: any }) {
   const { data, status } = useSession();
@@ -78,21 +79,24 @@ export default function ProductCard({ products }: { products: any }) {
                 .toLowerCase()
                 .replace(/ /g, "-")}/${items._id}`}
             >
-              <div>
+              <div className="flex items-center justify-center">
                 {items.sale && (
                   <div className=" absolute right-[-11px] top-[-11px]">
-                    <img
-                      className="h-[100px] w-full object-fill  "
+                    <Image
                       src="/images/sale/sale.svg"
                       alt="product image"
+                      width={90}
+                      height={90}
                     />
                   </div>
                 )}
 
-                <img
+                <Image
                   className="h-[160px] w-full rounded-t-lg object-cover p-1"
                   src={`${items.image[0]}`}
                   alt="product image"
+                  width={300}
+                  height={160}
                 />
               </div>
             </Link>

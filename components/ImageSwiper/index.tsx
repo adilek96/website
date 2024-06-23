@@ -56,7 +56,13 @@ export default function ImageSwiper({ images }) {
           return (
             <>
               <SwiperSlide key={i}>
-                <img src={img} />
+                <Image
+                  src={img}
+                  alt="Product Image"
+                  width={80}
+                  height={80}
+                  className="block h-full w-full object-cover"
+                />
               </SwiperSlide>
             </>
           );

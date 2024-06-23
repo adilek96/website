@@ -2,6 +2,7 @@
 
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
+import Image from "next/image";
 
 export default function ProductsTable({ products }) {
   const setNotification = notificationState((state) => state.setNotification);
@@ -78,10 +79,10 @@ export default function ProductsTable({ products }) {
                 <td className="px-6 py-4">{product.subcategory}</td>
                 <td className="px-6 py-4">{product.price}</td>
                 <td className="px-6 py-4">
-                  <img
+                  <Image
                     src={product.image}
-                    width="100"
-                    height="50"
+                    width={100}
+                    height={50}
                     alt="product-image"
                   />
                 </td>

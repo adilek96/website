@@ -61,7 +61,7 @@ export default function AddressList({ session }) {
       {addresses.length === 0 ? (
         <div className="my-10 mx-10 flex  flex-col items-center justify-center">
           <p className="text-xl font-bold italic">
-            You don't have any addresses. Please add them.
+            You don&apos;t have any addresses. Please add them.
           </p>
           <button className="my-8 flex w-[180px] items-center justify-center rounded-md bg-primary py-2 px-3 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
             Add address

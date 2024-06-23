@@ -116,9 +116,9 @@ const SortFilter = ({ data }) => {
                 className="w-[150px] rounded-md border border-transparent py-1 px-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
               >
                 <option value="All">Subcategory</option>
-                {selectedItem.submenu.map((sub) => (
+                {selectedItem.submenu.map((sub, index) => (
                   <option
-                    key={sub.id}
+                    key={index}
                     value={sub.title}
                     className="whitespace-nowrap"
                   >

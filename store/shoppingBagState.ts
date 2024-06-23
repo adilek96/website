@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 interface MyObject {
+  category: string;
   _id: string;
   name: string;
   image: string[];

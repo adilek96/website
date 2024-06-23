@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import AddressSelectList from "../AddressSelectList";
 import AddressCard from "../AddressCard";
@@ -10,11 +10,7 @@ export default function PurchaseAddress({ session }) {
   const [error, setError] = useState(false);
   const bgcolor = "bg-yellow p-5  dark:bg-opacity-90";
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/getAdress?id=${session.user.id}`
@@ -30,7 +26,11 @@ export default function PurchaseAddress({ session }) {
     } catch (error) {
       console.error("Error fetching addresses:", error);
     }
-  };
+  }, [session.user.id, bgcolor]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   useEffect(() => {
     if (addressId === null) {

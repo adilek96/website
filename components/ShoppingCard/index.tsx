@@ -9,6 +9,7 @@ import Loading from "@/app/loading";
 import { shopBagState } from "@/store/shoppingBagState";
 import { totalPriceState } from "@/store/shoppingBagState";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ShoppingCard() {
   const router = useRouter();
@@ -207,11 +208,12 @@ export default function ShoppingCard() {
                   >
                     <div className="flex  justify-start gap-2">
                       <div className="flex h-[90px] w-20 items-center">
-                        <img
-                          className="h-[90px] w-20"
+                        <Image
+                          className="h-[90px] w-20 object-cover "
                           src={item.image[0]}
                           alt="product image"
-                          fill-content="true"
+                          width={90}
+                          height={90}
                         />
                       </div>
                       <p className="font-bold">

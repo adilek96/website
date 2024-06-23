@@ -31,19 +31,18 @@ export default function Products({ params }: { params: { category: string } }) {
   const [products, setProducts] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [title, setTitle] = useState(null);
+  const [title, setTitle] = useState<string | null>(null); // Уточнение типа для title
   const [menuLoader, setMenuLoader] = useState(false);
   const router = useRouter();
 
-  // Получаем массив субкатегории и записываем в стейт
-
+  // Получаем подменю из API и обновляем меню
   useEffect(() => {
     const fetchSubmenuData = async () => {
       try {
         const response = await axios.get("/api/category");
         const submenuData = response.data;
 
-        // Обновление подменю в разделе "Products
+        // Обновление подменю в разделе "Products"
         const updatedMenu = menu.map((item) => {
           if (item.title === "Products") {
             return {
@@ -62,9 +61,9 @@ export default function Products({ params }: { params: { category: string } }) {
     };
 
     fetchSubmenuData();
-  }, []);
+  }, [menu]); // Добавлен menu в зависимости
 
-  // Находим обьект Products из меню и находим текущию категорию сравнивая с парамс страници
+  // Определяем текущий заголовок и проверяем, соответствует ли он параметру категории
   useEffect(() => {
     if (menuLoader) {
       const productsObj = menu.find((item) => item.title === "Products");
@@ -79,9 +78,9 @@ export default function Products({ params }: { params: { category: string } }) {
         }
       }
     }
-  }, [menuLoader, params.category]);
+  }, [menuLoader, params.category, menu, router]); // Добавлены menu и router в зависимости
 
-  // Получем данные
+  // Загружаем данные продуктов для выбранной категории и параметров сортировки
   useEffect(() => {
     if (title !== null) {
       const fetchData = async () => {
@@ -103,7 +102,7 @@ export default function Products({ params }: { params: { category: string } }) {
       };
       fetchData();
     }
-  }, [title, selectedCategory, sortBy, minPrice, maxPrice, currentPage]);
+  }, [title, selectedCategory, sortBy, minPrice, maxPrice, currentPage]); // Добавлены title и currentPage в зависимости
 
   if (!menuLoader) {
     return (

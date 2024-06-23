@@ -159,9 +159,9 @@ const Header = () => {
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
-                              {Array.isArray(menuItem.submenu) &&
-                                menuItem.submenu.map((submenuItem) => (
-                                  <Suspense fallback={<Loading />}>
+                              <Suspense fallback={<Loading />}>
+                                {Array.isArray(menuItem.submenu) &&
+                                  menuItem.submenu.map((submenuItem) => (
                                     <Link
                                       href={submenuItem.path}
                                       key={submenuItem._id}
@@ -169,8 +169,8 @@ const Header = () => {
                                     >
                                       {submenuItem.title}
                                     </Link>
-                                  </Suspense>
-                                ))}
+                                  ))}
+                              </Suspense>
                             </div>
                           </>
                         )}
