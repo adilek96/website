@@ -3,6 +3,7 @@ import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/models/user";
 import { revalidatePath } from "next/cache";
 import { ObjectId } from 'mongodb';
+import { redirect } from "next/navigation";
 
 
 
@@ -43,19 +44,11 @@ export async function testAction(formData, totalPrice, userCart, userId ) {
     })
   })
 
-
-  // console.log({
-  //   productItems,
-  //   method,
-  //   addressIdObj,
-  //   userIdObj,
-  //   totalPrice
-  // })
   try {
     
     await connectMongoDB();
 
-   const updatedUser = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       userIdObj,
       {
         $push: {
@@ -63,22 +56,22 @@ export async function testAction(formData, totalPrice, userCart, userId ) {
             items: items,
             totalAmount: totalPrice,
             shippingAddressId: addressIdObj,
-          }
+            paymentMethod: method(),
+          },
+        },
+        $set: {
+          cart: [],
         }
       },
       { new: true, runValidators: true }
     );
-
-    console.log(updatedUser)
+    
 
   } catch (error) {
     
    return error
   }
-
- 
-
-
-  
+  revalidatePath("/"),
+  redirect("/")
 
 }

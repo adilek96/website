@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 import BagButton from "./BagButton";
@@ -9,6 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import axios from "axios";
 import { Menu } from "@/types/menu";
 import ShoppingCard from "../ShoppingCard";
+import Loading from "@/app/loading";
 
 const Header = () => {
   const [menu, setMenu] = useState<Menu[]>(menuData);
@@ -160,13 +161,15 @@ const Header = () => {
                             >
                               {Array.isArray(menuItem.submenu) &&
                                 menuItem.submenu.map((submenuItem) => (
-                                  <Link
-                                    href={submenuItem.path}
-                                    key={submenuItem._id}
-                                    className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3"
-                                  >
-                                    {submenuItem.title}
-                                  </Link>
+                                  <Suspense fallback={<Loading />}>
+                                    <Link
+                                      href={submenuItem.path}
+                                      key={submenuItem._id}
+                                      className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3"
+                                    >
+                                      {submenuItem.title}
+                                    </Link>
+                                  </Suspense>
                                 ))}
                             </div>
                           </>

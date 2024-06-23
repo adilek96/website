@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import Loading from "@/app/loading";
 import { shopBagState } from "@/store/shoppingBagState";
 import { totalPriceState } from "@/store/shoppingBagState";
+import Link from "next/link";
 
 export default function ShoppingCard() {
   const router = useRouter();
@@ -189,68 +190,74 @@ export default function ShoppingCard() {
   };
 
   return (
-    <div className="h-[80vh] w-[90vw] overflow-auto md:h-fit md:w-[380px] ">
-      <h2 className="my-5 text-center text-2xl font-bold">Shopping bag</h2>
-      <div className="flex h-full w-full items-center justify-center ">
-        {isLoad && userCart.length > 0 ? (
-          <div className=" flex h-[90%] w-full flex-col items-center justify-between ">
-            <div className="w-full">
-              <ul className=" flex h-[250px] w-full flex-col items-center gap-4 overflow-auto ">
-                <Suspense fallback={<Loading />}>
-                  {userCart.map((item) => {
-                    return (
-                      <li
-                        className="flex h-[100px] w-full cursor-pointer justify-between rounded-md bg-gray bg-opacity-30 p-4 shadow-lg hover:bg-opacity-50 dark:bg-modal dark:bg-opacity-60 dark:hover:bg-opacity-5"
-                        key={item._id}
-                      >
-                        <div className="flex  justify-start gap-2">
-                          <div className="flex h-[90px] w-20 items-center">
-                            <img
-                              className="h-[90px] w-20"
-                              src={item.image[0]}
-                              alt="product image"
-                              fill-content="true"
-                            />
-                          </div>
-                          <p className="font-bold">{item.name}</p>
-                        </div>
-                        <div className="flex flex-col justify-between">
-                          <div className="text-start font-bold">
-                            $
-                            {item.sale
-                              ? item.salePrice * item.quantity
-                              : item.price * item.quantity}
-                          </div>
-                          <div className="black:bg-black  h-8 rounded-md  bg-gray bg-opacity-30  p-1">
-                            <button
-                              onClick={() => deleteItemInShoppingBag(item._id)}
-                              className="font-bold text-yellow transition-all duration-500 hover:opacity-40"
-                            >
-                              -
-                            </button>
-                            <span className="px-3 font-bold">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => {
-                                addItemInShoppingBag(item._id);
-                              }}
-                              className="font-bold text-yellow transition-all duration-500 hover:opacity-40"
-                            >
-                              +
-                            </button>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </Suspense>
-              </ul>
-            </div>
-            <div className="mt-10 flex w-full justify-between px-2 text-xl font-bold">
-              <p>Total:</p>
-              <p>${totalPrice}</p>
-            </div>
+    <div className="box-border flex h-[80vh] w-[90vw] flex-col items-center justify-center  md:w-[380px] ">
+      <div className="box-border h-[20%]">
+        <h2 className="my-5 text-center text-2xl font-bold">Shopping bag</h2>
+      </div>
+
+      {isLoad && userCart.length > 0 ? (
+        <>
+          <ul className="box-border flex h-[50%] w-full flex-col items-center gap-4 overflow-auto ">
+            <Suspense fallback={<Loading />}>
+              {userCart.map((item) => {
+                return (
+                  <li
+                    className="flex h-[100px] w-full cursor-pointer justify-between rounded-md bg-gray bg-opacity-30 p-4 shadow-lg hover:bg-opacity-50 dark:bg-modal dark:bg-opacity-60 dark:hover:bg-opacity-5"
+                    key={item._id}
+                  >
+                    <div className="flex  justify-start gap-2">
+                      <div className="flex h-[90px] w-20 items-center">
+                        <img
+                          className="h-[90px] w-20"
+                          src={item.image[0]}
+                          alt="product image"
+                          fill-content="true"
+                        />
+                      </div>
+                      <p className="font-bold">
+                        <Link href={`/products/${item.category}/${item._id}`}>
+                          {item.name}
+                        </Link>
+                      </p>
+                    </div>
+                    <div className="flex flex-col justify-between">
+                      <div className="text-start font-bold">
+                        $
+                        {item.sale
+                          ? item.salePrice * item.quantity
+                          : item.price * item.quantity}
+                      </div>
+                      <div className="black:bg-black  h-8 rounded-md  bg-gray bg-opacity-30  p-1">
+                        <button
+                          type="button"
+                          onClick={() => deleteItemInShoppingBag(item._id)}
+                          className="font-bold text-yellow transition-all duration-500 hover:opacity-40"
+                        >
+                          -
+                        </button>
+                        <span className="px-3 font-bold">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            addItemInShoppingBag(item._id);
+                          }}
+                          className="font-bold text-yellow transition-all duration-500 hover:opacity-40"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </Suspense>
+          </ul>
+
+          <div className="mt-10 box-border flex h-[10%] w-full justify-between px-2 text-xl font-bold">
+            <p>Total:</p>
+            <p>${totalPrice}</p>
+          </div>
+          <div className="box-border h-[20%]">
             {pathname !== "/purchase" ? (
               <button
                 onClick={purchaseHandle}
@@ -262,10 +269,12 @@ export default function ShoppingCard() {
               <div className="mb-5"></div>
             )}
           </div>
-        ) : (
-          <p>You cart is empty...</p>
-        )}
-      </div>
+        </>
+      ) : (
+        <div className=" mb-10 flex h-[80%] w-full flex-col items-center justify-center ">
+          You cart is empty...
+        </div>
+      )}
     </div>
   );
 }
