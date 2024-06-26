@@ -1,12 +1,15 @@
+import axios from "axios";
 import CategoryTable from "@/components/CategoryTable";
 import Link from "next/link";
 
 async function getCategories() {
-  const res = await fetch("http://localhost:3000/api/category");
-  if (!res.ok) {
+  try {
+    const res = await axios.get("/api/category");
+    return res.data;
+  } catch (error) {
+    console.error("Failed to fetch data", error);
     throw new Error("Failed to fetch data");
   }
-  return res.json();
 }
 
 export default async function DashboardCategories() {

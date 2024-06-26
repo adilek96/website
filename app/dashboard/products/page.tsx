@@ -1,13 +1,15 @@
+import axios from "axios";
 import ProductsTable from "@/components/ProductsTable/ProductsTable";
 import Link from "next/link";
 
 async function getProducts() {
-  const res = await fetch("http://localhost:3000/api/allProducts");
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  try {
+    const res = await axios.get("/api/allProducts");
+    return res.data;
+  } catch (error) {
+    console.error("Failed to fetch data", error);
     throw new Error("Failed to fetch data");
   }
-  return res.json();
 }
 
 export default async function DashboardProducts() {

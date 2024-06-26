@@ -1,13 +1,14 @@
+import axios from "axios";
 import UsersTable from "@/components/UsersTable/UsersTable";
 
-
 async function getUsers() {
-  const res = await fetch("http://localhost:3000/api/allUsers");
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  try {
+    const res = await axios.get("/api/allUsers");
+    return res.data;
+  } catch (error) {
+    console.error("Failed to fetch data", error);
     throw new Error("Failed to fetch data");
   }
-  return res.json();
 }
 
 export default async function DashboardUsers() {

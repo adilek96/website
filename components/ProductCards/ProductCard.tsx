@@ -96,7 +96,7 @@ export default function ProductCard({ products }: { products: any }) {
                   src={`${items.image[0]}`}
                   alt="product image"
                   width={300}
-                  height={160}
+                  height={300}
                 />
               </div>
             </Link>

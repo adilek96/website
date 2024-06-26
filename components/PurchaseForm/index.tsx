@@ -7,7 +7,6 @@ import { shopBagState } from "@/store/shoppingBagState";
 import { totalPriceState } from "@/store/shoppingBagState";
 import { useRouter } from "next/navigation";
 import Loading from "@/app/loading";
-import axios from "axios";
 
 export default function PurchaseForm({ session, testAction }) {
   const totalPrice = totalPriceState((state) => state.totalPrice);
