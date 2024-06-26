@@ -61,7 +61,6 @@ const SortFilter = ({ data }) => {
             <p className="whitespace-nowrap pl-5">Sort by:</p>
             <select
               name="Sort"
-              placeholder="Select sort"
               onChange={(e) => setSortBy(e.target.value)}
               defaultValue={String(sortBy)}
               className="w-[150px] rounded-md border border-transparent py-1 px-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
@@ -110,7 +109,6 @@ const SortFilter = ({ data }) => {
             {selectedItem && selectedItem.submenu ? (
               <select
                 name="category"
-                placeholder="Select category"
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 defaultValue={String(selectedCategory)}
                 className="w-[150px] rounded-md border border-transparent py-1 px-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"

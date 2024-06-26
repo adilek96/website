@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SubFormPath from "../SubFormPath";
 import SubCard from "../SubCard";
-import { categoryUpdateAction } from "@/app/action/categoryUpdateAction";
+import { categoryUpdateAction } from "@/app/actions/categoryUpdateAction";
 import Notification from "../Notification";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";

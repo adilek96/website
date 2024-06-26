@@ -1,7 +1,7 @@
 import { fetchProducts } from "@/lib/data";
 import Link from "next/link";
 import Image from "next/image";
-import { deleteProductAction } from "@/app/action/deleteProductAction";
+import { deleteProductAction } from "@/app/actions/deleteProductAction";
 import DeleteSvg from "@/public/images/delete/DeleteSvg";
 
 export default async function DashboardProducts() {

@@ -1,6 +1,6 @@
 import { fetchUsers } from "@/lib/data";
 import DeleteSvg from "@/public/images/delete/DeleteSvg";
-import { deleteUserAction } from "@/app/action/deleteUserAction";
+import { deleteUserAction } from "@/app/actions/deleteUserAction";
 
 export default async function DashboardUsers() {
   const { users } = await fetchUsers();

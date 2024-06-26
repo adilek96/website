@@ -160,7 +160,6 @@ export default function AddProduct() {
               </label>
               <select
                 name="category"
-                placeholder="Select category"
                 required
                 className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 onChange={categoryHandler}
@@ -182,7 +181,6 @@ export default function AddProduct() {
                 </label>
                 <select
                   name="subcategory"
-                  placeholder="Select subcategory"
                   required
                   className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 >

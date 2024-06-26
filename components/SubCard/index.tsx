@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { subUpdateAction } from "@/app/action/subUpdateAction";
+import { subUpdateAction } from "@/app/actions/subUpdateAction";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
 import DeleteSvg from "@/public/images/delete/DeleteSvg";
-import { subDeleteAction } from "@/app/action/subDeleteAction";
+import { subDeleteAction } from "@/app/actions/subDeleteAction";
 
 export default function SubCard({ item, updateCategory }) {
   const [subtitle, setSubtitle] = useState(item.title);

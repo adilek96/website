@@ -174,7 +174,6 @@ export default function AddressAddingForm({ session, addressId }) {
           </label>
           <select
             name="city"
-            placeholder="City"
             required
             value={selectedCity}
             className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
@@ -197,7 +196,6 @@ export default function AddressAddingForm({ session, addressId }) {
           </label>
           <select
             name="district"
-            placeholder="District"
             required
             value={selectedDistrict}
             className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"

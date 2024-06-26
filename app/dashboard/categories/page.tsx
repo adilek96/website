@@ -3,7 +3,7 @@ import CategoryTable from "@/components/CategoryTable";
 import Link from "next/link";
 import { fetchCategories } from "@/lib/data";
 import DeleteSvg from "@/public/images/delete/DeleteSvg";
-import { deleteCategoryAction } from "@/app/action/deleteCategoryAction";
+import { deleteCategoryAction } from "@/app/actions/deleteCategoryAction";
 
 export default async function DashboardCategories() {
   let categories = await fetchCategories();
