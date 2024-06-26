@@ -27,12 +27,9 @@ export default function ShoppingCard() {
 
   const getProductUseStorage = async (productArr) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/productStorage",
-        {
-          products: productArr,
-        }
-      );
+      const response = await axios.post("/api/productStorage", {
+        products: productArr,
+      });
 
       return response.data.products; // Возвращаем данные или обрабатываем результат запроса по необходимости
     } catch (error) {
@@ -47,7 +44,7 @@ export default function ShoppingCard() {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/productBag?email=${data.user.email}`,
+        `/api/productBag?email=${data.user.email}`,
         {
           products: productArr,
         }
@@ -67,13 +64,10 @@ export default function ShoppingCard() {
   const addItemInShoppingBag = async (productId) => {
     if (status === "authenticated") {
       try {
-        const response = await axios.post(
-          "http://localhost:3000/api/addToCart",
-          {
-            productId,
-            userEmail: data.user.email,
-          }
-        );
+        const response = await axios.post("/api/addToCart", {
+          productId,
+          userEmail: data.user.email,
+        });
 
         if (response.status !== 200) {
           throw new Error("Failed to add to cart");
@@ -109,15 +103,12 @@ export default function ShoppingCard() {
   const deleteItemInShoppingBag = async (productId) => {
     if (status === "authenticated") {
       try {
-        const response = await axios.delete(
-          "http://localhost:3000/api/addToCart",
-          {
-            data: {
-              productId,
-              userEmail: data.user.email,
-            },
-          }
-        );
+        const response = await axios.delete("/api/addToCart", {
+          data: {
+            productId,
+            userEmail: data.user.email,
+          },
+        });
 
         if (response.status !== 200) {
           throw new Error("Failed to add to cart");
