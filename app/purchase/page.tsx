@@ -1,4 +1,4 @@
-import { testAction } from "@/app/action/testAction";
+import { testAction } from "@/app/actions/testAction";
 import PurchaseForm from "@/components/PurchaseForm";
 import { authConfig } from "@/configs/auth";
 import { getServerSession } from "next-auth/next";

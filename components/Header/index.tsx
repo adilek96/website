@@ -85,6 +85,7 @@ const Header = () => {
                   alt="logo"
                   width={140}
                   height={30}
+                  priority
                   className="w-full dark:hidden"
                 />
                 <Image
@@ -92,6 +93,7 @@ const Header = () => {
                   alt="logo"
                   width={140}
                   height={30}
+                  priority
                   className="hidden w-full dark:block"
                 />
               </Link>

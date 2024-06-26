@@ -1,19 +1,11 @@
-import axios from "axios";
-import ProductsTable from "@/components/ProductsTable/ProductsTable";
+import { fetchProducts } from "@/lib/data";
 import Link from "next/link";
-
-async function getProducts() {
-  try {
-    const res = await axios.get("http://localhost:3000/api/allProducts");
-    return res.data;
-  } catch (error) {
-    console.error("Failed to fetch data", error);
-    throw new Error("Failed to fetch data");
-  }
-}
+import Image from "next/image";
+import { deleteProductAction } from "@/app/action/deleteProductAction";
+import DeleteSvg from "@/public/images/delete/DeleteSvg";
 
 export default async function DashboardProducts() {
-  const products = await getProducts();
+  const { products } = await fetchProducts();
 
   return (
     <section>
@@ -25,8 +17,68 @@ export default async function DashboardProducts() {
           </button>
         </Link>
       </div>
+      <div className="mt-5 px-4">
+        <div className="relative overflow-x-auto">
+          <table className=" w-full text-left text-sm rtl:text-right">
+            <thead className="  text-xs uppercase">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Description
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Characteristics
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Category
+                </th>
 
-      <ProductsTable products={products} />
+                <th scope="col" className="px-6 py-3">
+                  Price
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Image
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product: any) => (
+                <tr key={product.name} className=" border-b">
+                  <th
+                    scope="row"
+                    className=" whitespace-nowrap px-6 py-4 font-medium "
+                  >
+                    {product.name}
+                  </th>
+                  <td className="px-6 py-4">{product.description}</td>
+                  <td className="px-6 py-4">{product.characteristics}</td>
+                  <td className="px-6 py-4">{product.category}</td>
+
+                  <td className="px-6 py-4">{product.price}</td>
+                  <td className="px-6 py-4">
+                    <Image
+                      src={product.image[0]}
+                      width={100}
+                      height={50}
+                      alt="product-image"
+                    />
+                  </td>
+                  <td className="cursor-pointer px-6 py-4">
+                    <form action={deleteProductAction}>
+                      <input type="hidden" name="delete" value={product._id} />
+                      <button type="submit">
+                        <DeleteSvg />
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { profileUpdateAction } from "@/app/action/profileUpdateAction";
+import { profileUpdateAction } from "@/app/actions/profileUpdateAction";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
 import Image from "next/image";

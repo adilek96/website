@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { adressAction } from "@/app/action/adressAction";
+import { adressAction } from "@/app/actions/adressAction";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
 import Loading from "@/app/loading";

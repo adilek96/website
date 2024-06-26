@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { subAddAction } from "@/app/action/subAddAction";
+import { subAddAction } from "@/app/actions/subAddAction";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
 

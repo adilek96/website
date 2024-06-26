@@ -11,27 +11,26 @@ const Footer = () => {
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
-              <div className="mb-18 max-w-[360px] lg:mb-16  ">
-                <Link
-                  href="/"
-                  className={`header-logo "py-8" block 
-                   w-full
-                   `}
-                >
-                  <Image
-                    src="/images/logo/logo-2.svg"
-                    alt="logo"
-                    width={140}
-                    height={30}
-                    className="w-full dark:hidden"
-                  />
-                  <Image
-                    src="/images/logo/logo.svg"
-                    alt="logo"
-                    width={140}
-                    height={30}
-                    className="hidden w-full dark:block"
-                  />
+              <div className="mb-18  max-w-[260px] lg:mb-16  ">
+                <Link href="/">
+                  <div className="mb-8 ml-0 w-[260px] ">
+                    <Image
+                      src="/images/logo/logo-2.svg"
+                      alt="logo"
+                      width={140}
+                      height={30}
+                      priority
+                      className="w-full dark:hidden"
+                    />
+                    <Image
+                      src="/images/logo/logo.svg"
+                      alt="logo"
+                      width={140}
+                      height={30}
+                      priority
+                      className="hidden w-full dark:block"
+                    />
+                  </div>
                 </Link>
                 <p className="mb-9 text-base font-medium leading-relaxed text-body-color">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.

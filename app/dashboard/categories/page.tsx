@@ -1,19 +1,12 @@
 import axios from "axios";
 import CategoryTable from "@/components/CategoryTable";
 import Link from "next/link";
-
-async function getCategories() {
-  try {
-    const res = await axios.get("http://localhost:3000/api/category");
-    return res.data;
-  } catch (error) {
-    console.error("Failed to fetch data", error);
-    throw new Error("Failed to fetch data");
-  }
-}
+import { fetchCategories } from "@/lib/data";
+import DeleteSvg from "@/public/images/delete/DeleteSvg";
+import { deleteCategoryAction } from "@/app/action/deleteCategoryAction";
 
 export default async function DashboardCategories() {
-  let categories = await getCategories();
+  let categories = await fetchCategories();
 
   return (
     <section>
@@ -25,7 +18,41 @@ export default async function DashboardCategories() {
           </button>
         </Link>
       </div>
-      <CategoryTable categories={categories} />
+      <div className="mt-5 px-4">
+        <div className="relative flex flex-wrap justify-center gap-10 overflow-x-auto">
+          {categories.pdata.map((item) => {
+            return (
+              <div
+                key={item._id}
+                className=" relative w-[250px] rounded-md bg-primary bg-opacity-10 p-5 shadow-md "
+              >
+                <div className=" flex flex-col gap-10 ">
+                  <Link href={`/dashboard/categories/${item._id}`}>
+                    <div>
+                      <p>
+                        <b>
+                          <i>Title:</i>
+                        </b>
+                      </p>
+                      <span className="font-bold text-primary">
+                        {item.title}
+                      </span>
+                    </div>
+                  </Link>
+                  <div className="absolute bottom-2 right-3 z-50">
+                    <form action={deleteCategoryAction}>
+                      <input type="hidden" name="delete" value={item._id} />
+                      <button type="submit">
+                        <DeleteSvg />
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }
