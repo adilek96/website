@@ -4,7 +4,7 @@ import Link from "next/link";
 
 async function getProducts() {
   try {
-    const res = await axios.get("/api/allProducts");
+    const res = await axios.get("http://localhost:3000/api/allProducts");
     return res.data;
   } catch (error) {
     console.error("Failed to fetch data", error);
