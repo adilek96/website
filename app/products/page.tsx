@@ -31,7 +31,7 @@ export default function Products({ params }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/allProducts?subcategory=${selectedCategory}&sortby=${sortBy}&minprice=${minPrice}&maxprice=${maxPrice}&page=${currentPage}`
+          `/api/allProducts?subcategory=${selectedCategory}&sortby=${sortBy}&minprice=${minPrice}&maxprice=${maxPrice}&page=${currentPage}`
         );
 
         if (!response.data.data) {
