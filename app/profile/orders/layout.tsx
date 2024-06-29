@@ -1,11 +1,13 @@
 import ProfileHeader from "@/components/ProfileHeader";
 
 const ProfileLinks = [
-  { id: 1, name: "My adress", path: "/profile/adress" },
-  { id: 2, name: "Add adress", path: "/profile/adress/add-adress" },
+  { id: 1, name: "Shipped", path: "/profile/orders/Shipped" },
+  { id: 2, name: "Pending", path: "/profile/orders/Pending" },
+  { id: 3, name: "Delivered", path: "/profile/orders/Delivered" },
+  { id: 4, name: "Cancelled", path: "/profile/orders/Cancelled" },
 ];
 
-export default function AdressLayout({
+export default function OrdersLayout({
   children,
 }: {
   children: React.ReactNode;

@@ -2,7 +2,6 @@
 import { connectMongoDB } from "@/lib/mongodb";
 import Category from "@/models/category";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { ObjectId } from 'mongodb';
 
 export const deleteCategoryAction = async (formData) => {

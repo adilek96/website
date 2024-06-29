@@ -61,7 +61,7 @@ export default function Products({ params }: { params: { category: string } }) {
     };
 
     fetchSubmenuData();
-  }, [menu]); // Добавлен menu в зависимости
+  }, []); // Добавлен menu в зависимости
 
   // Определяем текущий заголовок и проверяем, соответствует ли он параметру категории
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Products({ params }: { params: { category: string } }) {
         }
       }
     }
-  }, [menuLoader, params.category, menu, router]); // Добавлены menu и router в зависимости
+  }, [menuLoader]); // Добавлены menu и router в зависимости
 
   // Загружаем данные продуктов для выбранной категории и параметров сортировки
   useEffect(() => {
@@ -114,7 +114,7 @@ export default function Products({ params }: { params: { category: string } }) {
 
   return (
     <>
-      <section className="flex justify-center overflow-hidden pt-[180px] pb-[120px]">
+      <section className="flex justify-center overflow-hidden pb-[120px] pt-[180px]">
         <div className="container">
           <div className="flex w-full justify-center">
             <div className="w-full">
