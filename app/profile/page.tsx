@@ -9,7 +9,8 @@ export default async function Profile() {
 
   return (
     <>
-      <ProfileCard user={user} />
+      rabotaet
+      {/* <ProfileCard user={user} /> */}
     </>
   );
 }
