@@ -4,23 +4,20 @@ import { profileUpdateAction } from "@/app/actions/profileUpdateAction";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
 import Image from "next/image";
+import Loading from "@/app/loading";
 
-export default function ProfileCard({ session }) {
+export default function ProfileCard({ user }) {
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
     (state) => state.setNotificationMessage
   );
 
-  const initialBirthday = session.user.birthday
-    ? new Date(session.user.birthday)
-    : "";
+  const initialBirthday = user.birthday ? new Date(user.birthday) : "";
 
-  const [image, setImage] = useState(
-    session.user.image || "/images/user/user.svg"
-  );
-  const [fullname, setFullname] = useState(session.user.name);
-  const [email, setEmail] = useState(session.user.email);
-  const [phone, setPhone] = useState(session.user.phone || "+994");
+  const [image, setImage] = useState(user.image || "/images/user/user.svg");
+  const [fullname, setFullname] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [phone, setPhone] = useState(user.phone || "+994");
   const [birthday, setBirthday] = useState(initialBirthday);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +25,7 @@ export default function ProfileCard({ session }) {
     const formData = new FormData(event.currentTarget);
 
     try {
-      await profileUpdateAction(formData, session.user.id);
+      await profileUpdateAction(formData, user.id);
 
       setNotificationMessage("Profile has up to date!");
     } catch (error) {
@@ -44,6 +41,9 @@ export default function ProfileCard({ session }) {
     .toString()
     .padStart(2, "0")}-${today.getDate().toString().padStart(2, "0")}`;
 
+  if (!user) {
+    return <Loading />;
+  }
   return (
     <div>
       <div className="relative mx-auto -mt-16 h-32 w-32 overflow-hidden rounded-full border-4 border-white">
@@ -70,7 +70,7 @@ export default function ProfileCard({ session }) {
             placeholder="My name"
             onChange={(e) => setFullname(e.target.value)}
             required
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -91,7 +91,7 @@ export default function ProfileCard({ session }) {
             }}
             required
             readOnly
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -109,7 +109,7 @@ export default function ProfileCard({ session }) {
             onChange={(e) => setPhone(e.target.value)}
             pattern="\+994\d{9}"
             placeholder="+994"
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -131,13 +131,13 @@ export default function ProfileCard({ session }) {
                 : ""
             }
             onChange={(e) => setBirthday(new Date(e.target.value))}
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
         <button
           type="submit"
-          className="mb-16 flex w-full items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+          className="mb-16 flex w-full items-center justify-center rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
         >
           Save
         </button>
