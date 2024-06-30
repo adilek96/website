@@ -7,8 +7,8 @@ export default function ProfileHeader({ ProfileLinks }) {
   const pathname = usePathname();
   const isActive = (href) => pathname === href;
   return (
-    <div>
-      <ul className="flex w-full items-end gap-8">
+    <div className="mx-5 flex items-center justify-center ">
+      <ul className=" flex w-full flex-wrap items-end  justify-center gap-8">
         {ProfileLinks.map((item) => {
           return (
             <li key={item.id}>

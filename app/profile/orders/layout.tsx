@@ -14,7 +14,7 @@ export default function OrdersLayout({
 }) {
   return (
     <div className="my-10 w-full ">
-      <div className="flex justify-center">
+      <div className="flex w-full items-center justify-center">
         <ProfileHeader ProfileLinks={ProfileLinks} />
       </div>
 
