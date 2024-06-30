@@ -25,9 +25,7 @@ export default function AddressList({ session }) {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/getAdress?id=${session.user.id}`
-      );
+      const response = await axios.get(`/api/getAdress?id=${session.user.id}`);
       setAddresses(response.data);
     } catch (error) {
       console.error("Error fetching addresses:", error);
@@ -42,7 +40,7 @@ export default function AddressList({ session }) {
 
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/getAdress?userId=${userId}&addressId=${addressId}`
+        `/api/getAdress?userId=${userId}&addressId=${addressId}`
       );
       setAddresses(response.data);
       setNotification(true);
@@ -59,16 +57,16 @@ export default function AddressList({ session }) {
   return (
     <>
       {addresses.length === 0 ? (
-        <div className="my-10 mx-10 flex  flex-col items-center justify-center">
+        <div className="mx-10 my-10 flex  flex-col items-center justify-center">
           <p className="text-xl font-bold italic">
             You don&apos;t have any addresses. Please add them.
           </p>
-          <button className="my-8 flex w-[180px] items-center justify-center rounded-md bg-primary py-2 px-3 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
+          <button className="my-8 flex w-[180px] items-center justify-center rounded-md bg-primary px-3 py-2 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
             Add address
           </button>
         </div>
       ) : (
-        <div className="my-10 mx-10 flex max-w-full flex-wrap items-center justify-start gap-5 ">
+        <div className="mx-10 my-10 flex max-w-full flex-wrap items-center justify-start gap-5 ">
           <Suspense fallback={<Loading />}>
             {addresses.map((item) => (
               <div key={item._id} className="relative">

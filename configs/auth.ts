@@ -69,7 +69,7 @@ export const authConfig: AuthOptions = {
           }
 
           if (!userExists) {
-            const res = await fetch("http://localhost:3000/api/user", {
+            const res = await fetch("/api/user", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
