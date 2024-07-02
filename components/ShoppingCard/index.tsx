@@ -194,17 +194,17 @@ export default function ShoppingCard() {
               {userCart.map((item) => {
                 return (
                   <li
-                    className="flex h-[100px] w-full cursor-pointer justify-between rounded-md bg-gray bg-opacity-30 p-4 shadow-lg hover:bg-opacity-50 dark:bg-modal dark:bg-opacity-60 dark:hover:bg-opacity-5"
+                    className="flex h-[120px] w-full cursor-pointer justify-between rounded-md bg-gray bg-opacity-30 p-4 shadow-lg hover:bg-opacity-50 dark:bg-modal dark:bg-opacity-60 dark:hover:bg-opacity-5"
                     key={item._id}
                   >
                     <div className="flex  justify-start gap-2">
-                      <div className="flex h-[90px] w-20 items-center">
+                      <div className="flex h-[90px] w-[90px] items-center justify-center">
                         <Image
-                          className="h-[90px] w-20 object-cover "
+                          className="h-[90px] w-[90px] object-cover "
                           src={item.image[0]}
                           alt="product image"
-                          width={90}
-                          height={90}
+                          width={80}
+                          height={80}
                         />
                       </div>
                       <p className="font-bold">

@@ -36,7 +36,7 @@ const Footer = () => {
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Integer lobortis.
                 </p>
-                <div className="flex items-center">
+                <div className="mb-16 flex items-center">
                   <a
                     href="/"
                     aria-label="social-link"
@@ -108,8 +108,7 @@ const Footer = () => {
                       href="/"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                      Blog{" "}
+                      Blog
                     </a>
                   </li>
                   <li>
@@ -117,17 +116,15 @@ const Footer = () => {
                       href="/"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                      Pricing{" "}
+                      Pricing
                     </a>
                   </li>
                   <li>
                     <a
                       href="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
+                      className="mb-4 inline-block text-center font-medium text-body-color hover:text-primary"
                     >
-                      {" "}
-                      About{" "}
+                      About
                     </a>
                   </li>
                 </ul>
@@ -290,7 +287,7 @@ const Footer = () => {
             </defs>
           </svg>
         </div>
-        <div className="absolute left-0 bottom-24 z-[-1]">
+        <div className="absolute bottom-24 left-0 z-[-1]">
           <svg
             width="79"
             height="94"

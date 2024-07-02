@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { authConfig } from "@/configs/auth";
 import { getServerSession } from "next-auth/next";
 
@@ -11,16 +11,16 @@ import { getServerSession } from "next-auth/next";
 //     return NextResponse.next()
 // }
 import { withAuth } from "next-auth/middleware"
-import { redirect } from "next/navigation";
+
 
 // More on how NextAuth.js middleware works: https://next-auth.js.org/configuration/nextjs#middleware
 export default withAuth({
   callbacks: {
     authorized: ({ req, token }) => {
    
-      // /admin requires admin role, but /me only requires the user to be logged in.
+  
       if(token){
-        return true 
+        return true
       } else {
        return  false
       }
