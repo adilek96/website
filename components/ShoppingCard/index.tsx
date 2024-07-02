@@ -11,7 +11,7 @@ import { totalPriceState } from "@/store/shoppingBagState";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function ShoppingCard() {
+export default function ShoppingCard({ setShopCardTrigger }) {
   const router = useRouter();
   const pathname = usePathname();
   const { data, status } = useSession();
@@ -176,8 +176,10 @@ export default function ShoppingCard() {
   const purchaseHandle = () => {
     if (status === "authenticated") {
       router.push("/purchase");
+      setShopCardTrigger(false);
     } else {
       router.push("/signin");
+      setShopCardTrigger(false);
     }
   };
 

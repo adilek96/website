@@ -12,9 +12,7 @@ export default function PurchaseAddress({ session }) {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/getAdress?id=${session.user.id}`
-      );
+      const response = await axios.get(`/api/getAdress?id=${session.user.id}`);
       const op = response.data.map((item) => {
         return {
           label: item._id,

@@ -55,7 +55,7 @@ export default function PurchaseForm({ session, testAction }) {
           className=" flex h-full w-full flex-wrap justify-center   gap-8  "
         >
           <div className="self-stretch rounded-md bg-white p-8 shadow-2xl dark:bg-dark">
-            <ShoppingCard />
+            <ShoppingCard setShopCardTrigger={null} />
           </div>
 
           <div className="self-stretch overflow-y-auto overflow-x-hidden rounded-md bg-white p-8 shadow-2xl dark:bg-dark">
