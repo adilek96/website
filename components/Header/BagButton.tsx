@@ -19,7 +19,7 @@ const BagButton = () => {
         />
       </svg>
 
-      <div className="absolute top-0 right-3 flex h-3 w-3 items-center justify-center rounded-full bg-yellow text-[8px] md:top-1 md:right-[22px]">
+      <div className="absolute right-3 top-0 flex h-3 w-3 items-center justify-center rounded-full bg-yellow text-[8px] md:right-[22px] md:top-1">
         <p>0</p>
       </div>
     </button>

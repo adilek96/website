@@ -10,6 +10,9 @@ import axios from "axios";
 import { Menu } from "@/types/menu";
 import ShoppingCard from "../ShoppingCard";
 import Loading from "@/app/loading";
+import ProfileIcon from "@/public/images/profileIcon/ProfileIcon";
+import LanguageIcon from "@/public/images/language/LanguageIcon";
+import SearchIcon from "@/public/images/search/SearchIcon";
 
 const Header = () => {
   const [menu, setMenu] = useState<Menu[]>(menuData);
@@ -127,7 +130,7 @@ const Header = () => {
                   id="navbarCollapse"
                   className={`navbar absolute right-0 z-30 w-[250px] rounded border-[.5px] border-body-color/50 bg-white px-6 py-4 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
                     navbarOpen
-                      ? "visibility top-full opacity-100"
+                      ? "visibility top-full w-full opacity-100"
                       : "invisible top-[120%] opacity-0"
                   }`}
                 >
@@ -138,6 +141,7 @@ const Header = () => {
                           <Link
                             href={menuItem.path}
                             className={`flex py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:px-0 lg:py-6`}
+                            onClick={() => setNavbarOpen(false)}
                           >
                             {menuItem.title}
                           </Link>
@@ -169,6 +173,7 @@ const Header = () => {
                                       href={submenuItem.path}
                                       key={submenuItem._id}
                                       className="block rounded py-2.5 text-sm text-dark hover:opacity-70 dark:text-white lg:px-3"
+                                      onClick={() => setNavbarOpen(false)}
                                     >
                                       {submenuItem.title}
                                     </Link>
@@ -180,21 +185,47 @@ const Header = () => {
                       </li>
                     ))}
                   </ul>
+                  <div className="mt-5 flex h-10 items-center justify-center gap-4 md:hidden">
+                    <div className="self-center md:hidden">
+                      <LanguageIcon />
+                    </div>
+                    <div className=" h-10 w-10 self-center  rounded-full shadow-2xl">
+                      <Link
+                        href={session?.data ? "/profile" : "/signin"}
+                        className=" hover:bg-opacity-90 md:hidden"
+                      >
+                        <ProfileIcon />
+                      </Link>
+                    </div>
+                    <div className="self-center md:hidden">
+                      <ThemeToggler />
+                    </div>
+                  </div>
                 </nav>
               </div>
+
               <div className="flex items-center justify-end pr-16 lg:pr-0">
+                <div>
+                  <Link
+                    href="#"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="ml-8 font-bold text-dark hover:opacity-70 dark:text-white"
+                  >
+                    <SearchIcon />
+                  </Link>
+                </div>
                 {session?.data ? (
                   <>
                     <Link
                       href="#"
                       onClick={() => signOut({ callbackUrl: "/" })}
-                      className="hidden px-7 py-3 text-base font-bold text-dark hover:opacity-70 dark:text-white md:block"
+                      className="hidden px-5 py-3  text-sm font-bold text-dark hover:opacity-70 dark:text-white md:block"
                     >
                       Sign Out
                     </Link>
                     <Link
                       href="/profile"
-                      className="ease-in-up hidden rounded-md bg-primary px-8 py-3 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9"
+                      className="ease-in-up hidden rounded-md bg-primary px-3 py-3 text-sm font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-3 lg:px-3 xl:px-4"
                     >
                       Profile
                     </Link>
@@ -215,15 +246,20 @@ const Header = () => {
                     </Link>
                   </>
                 )}
-                <div className="flex justify-center">
+
+                <div className="flex items-center justify-center">
                   <div
                     onClick={() => setShopCardTrigger(!shopCardTrigger)}
                     className="group "
                   >
                     <BagButton />
                   </div>
-
-                  <ThemeToggler />
+                  <div className="hidden  md:block">
+                    <ThemeToggler />
+                  </div>
+                  <div className="bg-gray-2  dark:bg-dark-bg hidden h-7 w-7 cursor-pointer items-center justify-center rounded-full text-black hover:opacity-70 dark:text-white md:flex md:h-14 md:w-14">
+                    <LanguageIcon />
+                  </div>
                 </div>
               </div>
             </div>
