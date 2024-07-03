@@ -52,18 +52,14 @@ const SortFilter = ({ data }) => {
   return (
     <>
       <div className="mx-2 flex h-12 w-[80vw] flex-wrap items-center justify-end rounded-sm dark:bg-primary dark:bg-opacity-5">
-        <div
-          className={`no-scrollbar flex h-full w-[60%] cursor-pointer snap-x snap-mandatory flex-row flex-nowrap items-center justify-around overflow-x-auto overflow-y-hidden scroll-smooth rounded-sm bg-white p-5 px-5 shadow-lg transition-all duration-700 ease-in-out dark:bg-dark ${
-            openSort ? "block" : "hidden"
-          }`}
-        >
+        <div className={` ${openSort ? "block" : "hidden"}`}>
           <div className="flex h-11 w-max snap-start flex-nowrap items-center justify-center gap-3">
             <p className="whitespace-nowrap pl-5">Sort by:</p>
             <select
               name="Sort"
               onChange={(e) => setSortBy(e.target.value)}
               defaultValue={String(sortBy)}
-              className="w-[150px] rounded-md border border-transparent py-1 px-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+              className="w-[150px] rounded-md border border-transparent px-3 py-1 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             >
               <option
                 value="DateDown"
@@ -99,11 +95,7 @@ const SortFilter = ({ data }) => {
           </div>
         </div>
 
-        <div
-          className={`no-scrollbar flex h-full w-[70%] cursor-pointer snap-x snap-mandatory flex-row flex-nowrap items-center justify-around overflow-x-auto overflow-y-hidden scroll-smooth rounded-sm bg-white p-5 px-5 shadow-lg transition-all duration-700 ease-in-out dark:bg-dark ${
-            openFilter ? "block" : "hidden"
-          }`}
-        >
+        <div className={` ${openFilter ? "block" : "hidden"}`}>
           <div className="ml-5 flex h-11 w-max snap-end flex-nowrap items-center justify-center gap-3">
             <p className="whitespace-nowrap text-center">Filter by:</p>
             {selectedItem && selectedItem.submenu ? (
@@ -111,7 +103,7 @@ const SortFilter = ({ data }) => {
                 name="category"
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 defaultValue={String(selectedCategory)}
-                className="w-[150px] rounded-md border border-transparent py-1 px-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+                className="w-[150px] rounded-md border border-transparent px-3 py-1 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
               >
                 <option value="All">Subcategory</option>
                 {selectedItem.submenu.map((sub, index) => (
