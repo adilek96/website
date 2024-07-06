@@ -9,6 +9,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
 import AddButton from "@/components/AddButton";
+import Link from "next/link";
 
 export default function AddProduct() {
   const [sub, setSub] = useState(false);
@@ -121,7 +122,7 @@ export default function AddProduct() {
 
       try {
         // Отправка запроса POST для добавления продукта
-        const response = await fetch("http://localhost:3000/api/product", {
+        const response = await fetch("/api/product", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -159,13 +160,9 @@ export default function AddProduct() {
   return (
     <section className=" flex flex-col items-center justify-center">
       <div className="flex w-[90%] justify-end">
-        <button
-          onClick={() => {
-            router.push("/dashboard/products");
-          }}
-        >
+        <Link href={"/dashboard/products"}>
           <AddButton buttonText={"Back"} />
-        </button>
+        </Link>
       </div>
       <h1 className="mt-5 text-center text-[30px]">Add product</h1>
       <form onSubmit={handleSubmit} className="mb-10 mt-10 w-[90%]">

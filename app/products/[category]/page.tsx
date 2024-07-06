@@ -61,7 +61,7 @@ export default function Products({ params }: { params: { category: string } }) {
     };
 
     fetchSubmenuData();
-  }, []); // Добавлен menu в зависимости
+  }, []);
 
   // Определяем текущий заголовок и проверяем, соответствует ли он параметру категории
   useEffect(() => {

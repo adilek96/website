@@ -40,7 +40,8 @@ export async function GET(request: Request) {
     await connectMongoDB();
     try{
       const query: any = {};
-      if (paramsCategory) query.category = category;
+      console.log(paramsCategory)
+      if (paramsCategory && paramsCategory !== "All products") query.category = category;
       if (paramsSubcategory && paramsSubcategory !== 'All') {
         query.subcategory = paramsSubcategory;
       }

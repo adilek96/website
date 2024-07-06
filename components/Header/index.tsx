@@ -13,6 +13,7 @@ import Loading from "@/app/loading";
 import ProfileIcon from "@/public/images/profileIcon/ProfileIcon";
 import LanguageIcon from "@/public/images/language/LanguageIcon";
 import SearchIcon from "@/public/images/search/SearchIcon";
+import Search from "../Search";
 
 const Header = () => {
   const [menu, setMenu] = useState<Menu[]>(menuData);
@@ -20,6 +21,7 @@ const Header = () => {
   const [sticky, setSticky] = useState(false);
   const [openIndex, setOpenIndex] = useState(-1);
   const [shopCardTrigger, setShopCardTrigger] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const session = useSession();
 
@@ -128,13 +130,13 @@ const Header = () => {
                 </button>
                 <nav
                   id="navbarCollapse"
-                  className={`navbar absolute right-0 z-50 w-[250px] rounded  border-body-color/50 bg-white px-6 py-4 shadow-2xl duration-300 dark:border-body-color dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
+                  className={`navbar absolute right-0 z-50 w-[250px] rounded border-[.5px] border-body-color/50 bg-white px-6 py-4 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100 ${
                     navbarOpen
                       ? "visibility top-full w-full opacity-100"
                       : "invisible top-[120%] opacity-0"
                   }`}
                 >
-                  <ul className="block lg:flex lg:space-x-12">
+                  <ul className="block  lg:flex lg:space-x-12">
                     {menu.map((menuItem, index) => (
                       <li key={menuItem._id} className="group relative">
                         {menuItem.path ? (
@@ -162,7 +164,7 @@ const Header = () => {
                               </span>
                             </a>
                             <div
-                              className={`submenu relative left-0 top-full rounded-md bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
+                              className={`submenu relative left-0 top-full z-50 rounded-md bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
@@ -193,6 +195,7 @@ const Header = () => {
                       <Link
                         href={session?.data ? "/profile" : "/signin"}
                         className=" hover:bg-opacity-90 md:hidden"
+                        onClick={navbarToggleHandler}
                       >
                         <ProfileIcon />
                       </Link>
@@ -208,7 +211,7 @@ const Header = () => {
                 <div className="flex items-center justify-center">
                   <Link
                     href="#"
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() => setSearchOpen(!searchOpen)}
                     className="ml-8  font-bold text-dark hover:opacity-70 dark:text-white"
                   >
                     <SearchIcon />
@@ -266,11 +269,18 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`submenu  absolute right-0  rounded-md   bg-white p-4 opacity-0 shadow-lg  transition-[top] duration-300 dark:bg-dark  ${
+          className={`submenu  absolute right-0 z-50  rounded-md   bg-white p-4 opacity-0 shadow-lg  transition-[top] duration-300 dark:bg-dark  ${
             shopCardTrigger ? "visible top-[100%]   opacity-100" : "invisible"
           }`}
         >
           <ShoppingCard setShopCardTrigger={setShopCardTrigger} />
+        </div>
+        <div
+          className={`absolute right-0 z-20 w-full  rounded-md    opacity-0 shadow-lg  transition-[top] duration-300   ${
+            searchOpen ? "visible top-[100%]   opacity-100" : "invisible"
+          }`}
+        >
+          <Search setSearchOpen={setSearchOpen} />
         </div>
       </header>
     </>

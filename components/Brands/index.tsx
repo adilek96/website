@@ -48,14 +48,14 @@ const Brands = () => {
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
             <div
-              className="wow fadeInUp flex flex-wrap items-center justify-center rounded-md bg-body-color  bg-opacity-30 px-8 py-8 dark:bg-primary dark:bg-opacity-5 sm:px-10 md:px-[50px] md:py-[40px] xl:p-[50px] 2xl:px-[70px] 2xl:py-[60px]"
+              className="wow fadeInUp flex flex-wrap items-center justify-center rounded-md bg-body-color  bg-opacity-10 px-8 py-8 dark:bg-primary dark:bg-opacity-5 sm:px-10 md:px-[50px] md:py-[40px] xl:p-[50px] 2xl:px-[70px] 2xl:py-[60px]"
               data-wow-delay=".1s
               "
             >
               <Swiper
                 loop={true}
                 slidesPerView={4}
-                spaceBetween={10}
+                spaceBetween={30}
                 breakpoints={{
                   320: { slidesPerView: 1 },
                   480: { slidesPerView: 2 },
@@ -63,9 +63,10 @@ const Brands = () => {
                   1080: { slidesPerView: 4 },
                 }}
                 modules={[Autoplay]}
-                autoplay={{ delay: 100 }}
+                autoplay={{ delay: 500 }}
                 speed={900}
-                className=" h-full w-full"
+                centeredSlides={true}
+                className="h-full w-full  "
               >
                 {brandsData.map((brand, i) => (
                   <SwiperSlide key={i}>
@@ -87,15 +88,8 @@ const SingleBrand = ({ brand }: { brand: Brand }) => {
   const { href, image, name } = brand;
 
   return (
-    <div className="mx-3 flex w-full max-w-[160px] items-center justify-center py-[15px] sm:mx-4 lg:max-w-[130px] xl:mx-6 xl:max-w-[150px] 2xl:mx-8 2xl:max-w-[160px]">
-      <a
-        href={href}
-        target="_blank"
-        rel="nofollow noreferrer"
-        className=" relative h-10 w-full transition-all duration-300 hover:opacity-50"
-      >
-        <Image src={image} alt={name} fill />
-      </a>
+    <div className="relative flex h-16 w-full items-center justify-center self-center transition-all duration-300 hover:opacity-50">
+      <Image src={image} alt={name} fill />
     </div>
   );
 };
