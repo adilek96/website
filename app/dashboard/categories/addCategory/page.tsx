@@ -5,6 +5,7 @@ import Category from "@/models/category";
 import { revalidatePath } from "next/cache";
 import CategoryForm from "@/components/CategoryAddingForm/CategoryForm";
 import { redirect } from "next/navigation";
+import AddButton from "@/components/AddButton";
 
 async function CategoryAddingAction(formData) {
   "use server";
@@ -30,12 +31,9 @@ async function CategoryAddingAction(formData) {
 export default async function AddCategory() {
   return (
     <section className=" flex flex-col items-center justify-center">
-      <div className="flex w-[90%] justify-start">
-        <Link
-          href={"/dashboard/categories"}
-          className=" flex w-11  items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
-        >
-          Back
+      <div className="flex w-[90%] justify-end">
+        <Link href={"/dashboard/categories"}>
+          <AddButton buttonText={"Back"} />
         </Link>
       </div>
       <h1 className="mt-5 text-center text-[30px] font-bold">Add category</h1>

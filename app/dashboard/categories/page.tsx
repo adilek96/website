@@ -4,6 +4,7 @@ import Link from "next/link";
 import { fetchCategories } from "@/lib/data";
 import DeleteSvg from "@/public/images/delete/DeleteSvg";
 import { deleteCategoryAction } from "@/app/actions/deleteCategoryAction";
+import AddButton from "@/components/AddButton";
 
 export default async function DashboardCategories() {
   let categories = await fetchCategories();
@@ -13,9 +14,7 @@ export default async function DashboardCategories() {
       <h1 className="mt-5 text-center text-[30px]">Categories</h1>
       <div className="flex w-[90%] justify-end">
         <Link href={"/dashboard/categories/addCategory"}>
-          <button className="ease-in-up hidden  rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9">
-            Add new category
-          </button>
+          <AddButton buttonText={"  Add new category"} />
         </Link>
       </div>
       <div className="mt-5 px-4">
@@ -39,7 +38,7 @@ export default async function DashboardCategories() {
                       </span>
                     </div>
                   </Link>
-                  <div className="absolute bottom-2 right-3 z-50">
+                  <div className="absolute bottom-2 right-3 z-20">
                     <form action={deleteCategoryAction}>
                       <input type="hidden" name="delete" value={item._id} />
                       <button type="submit">

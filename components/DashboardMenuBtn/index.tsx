@@ -8,7 +8,7 @@ export default function index() {
     (state) => state.setNavbarOpen
   );
   return (
-    <div className="absolute left-8 top-8">
+    <div className="absolute left-8 top-8 z-40 ">
       <button
         onClick={() => setNavbarOpen(!navbarOpen)}
         id="navbarToggler"

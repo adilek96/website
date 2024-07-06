@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { deleteProductAction } from "@/app/actions/deleteProductAction";
 import DeleteSvg from "@/public/images/delete/DeleteSvg";
+import AddButton from "@/components/AddButton";
 
 export default async function DashboardProducts() {
   const { products } = await fetchProducts();
@@ -12,9 +13,7 @@ export default async function DashboardProducts() {
       <h1 className="mt-5 text-center text-[30px]">Products</h1>
       <div className="flex w-[90%] justify-end">
         <Link href={"/dashboard/products/addProduct"}>
-          <button className="ease-in-up hidden  rounded-md bg-primary py-3 px-8 text-base font-bold text-white transition duration-300 hover:bg-opacity-90 hover:shadow-signUp md:block md:px-9 lg:px-6 xl:px-9">
-            Add product
-          </button>
+          <AddButton buttonText={"Add product"} />
         </Link>
       </div>
       <div className="mt-5 px-4">

@@ -12,14 +12,13 @@ export default function index() {
 
   return (
     <div
-      className={`absolute  ${
+      className={`absolute ${
         navbarOpen
-          ? "left-0 z-50 block opacity-100"
-          : " right-[100%] hidden opacity-0"
-      }   h-[100vh] w-[20vw] rounded-md bg-body-color   py-5 pl-2 transition-all duration-700 dark:bg-dark`}
+          ? "left-0 z-30 block opacity-100"
+          : " right-[1000%] hidden opacity-0"
+      }    h-[100vh] w-[90%] rounded-md bg-white py-5 pl-2 shadow-2xl transition duration-300 dark:bg-dark md:w-[50%] lg:w-[20vw]`}
     >
       <ul className="relative ml-10 flex  h-full flex-col justify-center gap-4 text-lg">
-        <DashboardMenuBtn />
         <li className=" hover:opacity-70">
           <Link href="/dashboard">
             <svg

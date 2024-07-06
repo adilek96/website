@@ -6,6 +6,7 @@ import { storage } from "@/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { notificationState } from "@/store/notificationState";
 import { notificationMessage } from "@/store/notificationMessage";
+import AddButton from "@/components/AddButton";
 
 export default function AddProduct() {
   const [sub, setSub] = useState(false);
@@ -122,18 +123,17 @@ export default function AddProduct() {
 
   return (
     <section className=" flex flex-col items-center justify-center">
-      <div className="flex w-[90%] justify-start">
+      <div className="flex w-[90%] justify-end">
         <button
           onClick={() => {
             router.push("/dashboard/products");
           }}
-          className=" flex w-11  items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
         >
-          Back
+          <AddButton buttonText={"Back"} />
         </button>
       </div>
       <h1 className="mt-5 text-center text-[30px]">Add product</h1>
-      <form onSubmit={handleSubmit} className="mt-10 mb-10 w-[90%]">
+      <form onSubmit={handleSubmit} className="mb-10 mt-10 w-[90%]">
         <div className=" flex gap-5">
           <div className="mb-8">
             <label
@@ -147,7 +147,7 @@ export default function AddProduct() {
               name="name"
               placeholder="Enter product name"
               required
-              className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+              className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
           </div>
           <div>
@@ -161,7 +161,7 @@ export default function AddProduct() {
               <select
                 name="category"
                 required
-                className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+                className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 onChange={categoryHandler}
               >
                 {menuData[1].submenu.map((category) => (
@@ -182,7 +182,7 @@ export default function AddProduct() {
                 <select
                   name="subcategory"
                   required
-                  className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+                  className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 >
                   {submenu.map((subcategory) => {
                     return subcategory.map((category) => (
@@ -208,7 +208,7 @@ export default function AddProduct() {
             name="description"
             placeholder="Enter description"
             required
-            className="h-[200px] w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="h-[200px] w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -224,7 +224,7 @@ export default function AddProduct() {
             name="characteristics"
             placeholder="Enter product characteristics"
             required
-            className="h-[200px] w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="h-[200px] w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -241,7 +241,7 @@ export default function AddProduct() {
               name="price"
               placeholder="Enter product price"
               required
-              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+              className=" w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
           </div>
           <div className="mb-8">
@@ -257,14 +257,14 @@ export default function AddProduct() {
               placeholder="Enter product image"
               multiple
               required
-              className=" w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+              className=" w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
           </div>
         </div>
 
         <button
           type="submit"
-          className="flex w-full items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+          className="flex w-full items-center justify-center rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
         >
           Add product
         </button>
