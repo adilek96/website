@@ -16,8 +16,8 @@ export default async function Brands() {
       </div>
       <div className="mt-5 px-4">
         <div className="mb-10 flex flex-wrap justify-around gap-8">
-          {brands.pdata.map((item) => {
-            return <BrandsCard item={item} />;
+          {brands.pdata.map((item, i) => {
+            return <BrandsCard key={i} item={item} />;
           })}
         </div>
       </div>
