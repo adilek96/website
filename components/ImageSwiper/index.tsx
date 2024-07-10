@@ -27,18 +27,16 @@ export default function ImageSwiper({ images }) {
       >
         {images.map((img, i) => {
           return (
-            <>
-              <SwiperSlide key={i}>
-                <div className="flex h-full w-full items-center justify-center">
-                  <Image
-                    src={img}
-                    alt={"img"}
-                    fill
-                    className="block h-full w-full object-cover"
-                  />
-                </div>
-              </SwiperSlide>
-            </>
+            <SwiperSlide key={i}>
+              <div className="flex h-full w-full items-center justify-center">
+                <Image
+                  src={img}
+                  alt={"img"}
+                  fill
+                  className="block h-full w-full object-cover"
+                />
+              </div>
+            </SwiperSlide>
           );
         })}
       </Swiper>
@@ -54,17 +52,15 @@ export default function ImageSwiper({ images }) {
       >
         {images.map((img, i) => {
           return (
-            <>
-              <SwiperSlide key={i}>
-                <Image
-                  src={img}
-                  alt="Product Image"
-                  width={80}
-                  height={80}
-                  className="block h-full w-full object-cover"
-                />
-              </SwiperSlide>
-            </>
+            <SwiperSlide key={i}>
+              <Image
+                src={img}
+                alt="Product Image"
+                width={80}
+                height={80}
+                className="block h-full w-full object-cover"
+              />
+            </SwiperSlide>
           );
         })}
       </Swiper>

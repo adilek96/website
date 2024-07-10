@@ -1,12 +1,10 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose, { Schema, models } from "mongoose";
 
 const brandSchema = new Schema({
-  id: Number,
   name: String,
   href: String,
   image: String,
 });
 
-const Brand = mongoose.model("Brand", brandSchema);
-module.exports = Brand;
+const Brand = models.Brand || mongoose.model("Brand", brandSchema);
+export default Brand;

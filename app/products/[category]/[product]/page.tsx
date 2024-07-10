@@ -1,10 +1,11 @@
 import React from "react";
-import { connectMongoDB } from "@/lib/mongodb";
-import Product from "@/models/product";
-import mongoose from "mongoose";
 import Link from "next/link";
 import ImageSwiper from "@/components/ImageSwiper";
 import Accordion from "@/components/Accordion";
+import { connectMongoDB } from "@/lib/mongodb";
+import Product from "@/models/product";
+import mongoose from "mongoose";
+import Image from "next/image";
 
 async function getProduct(id) {
   await connectMongoDB();
@@ -38,7 +39,7 @@ export default async function ProductPage({ params }) {
     data = await getProduct(params.product);
   } catch (error) {
     return (
-      <div className="flex justify-center pt-[180px] pb-[120px]">
+      <div className="flex justify-center pb-[120px] pt-[180px]">
         <div className="container text-center">
           <h1 className="text-red-600 text-3xl font-bold">Error</h1>
           <p className="text-lg">
@@ -50,7 +51,7 @@ export default async function ProductPage({ params }) {
   }
 
   return (
-    <section className="flex justify-center overflow-hidden pt-[180px] pb-[120px]">
+    <section className="flex justify-center overflow-hidden pb-[120px] pt-[180px]">
       <div className="container">
         <div className="flex w-full justify-center">
           <div className="w-full">

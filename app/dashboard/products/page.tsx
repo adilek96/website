@@ -18,18 +18,13 @@ export default async function DashboardProducts() {
       </div>
       <div className="mt-5 px-4">
         <div className="relative overflow-x-auto">
-          <table className=" w-full text-left text-sm rtl:text-right">
+          <table className=" w-full  text-left text-sm rtl:text-right">
             <thead className="  text-xs uppercase">
-              <tr>
+              <tr className=" border-b-2">
                 <th scope="col" className="px-6 py-3">
                   Name
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Description
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Characteristics
-                </th>
+
                 <th scope="col" className="px-6 py-3">
                   Category
                 </th>
@@ -49,20 +44,23 @@ export default async function DashboardProducts() {
                     scope="row"
                     className=" whitespace-nowrap px-6 py-4 font-medium "
                   >
-                    {product.name}
+                    <Link href={`/dashboard/products/${product._id}`}>
+                      {product.name}
+                    </Link>
                   </th>
-                  <td className="px-6 py-4">{product.description}</td>
-                  <td className="px-6 py-4">{product.characteristics}</td>
+
                   <td className="px-6 py-4">{product.category}</td>
 
                   <td className="px-6 py-4">{product.price}</td>
-                  <td className="px-6 py-4">
-                    <Image
-                      src={product.image[0]}
-                      width={100}
-                      height={50}
-                      alt="product-image"
-                    />
+                  <td className=" px-6 py-4">
+                    <div className="h-16 w-16">
+                      <Image
+                        src={product.image[0]}
+                        width={30}
+                        height={30}
+                        alt="product-image"
+                      />
+                    </div>
                   </td>
                   <td className="cursor-pointer px-6 py-4">
                     <form action={deleteProductAction}>

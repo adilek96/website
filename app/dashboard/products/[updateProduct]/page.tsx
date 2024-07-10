@@ -1,6 +1,5 @@
 "use client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import menuData from "@/components/Header/menuData";
 import { Menu } from "@/types/menu";
@@ -11,19 +10,29 @@ import { notificationMessage } from "@/store/notificationMessage";
 import AddButton from "@/components/AddButton";
 import Link from "next/link";
 
-export default function AddProduct() {
+export default function UpdateProduct({
+  params,
+}: {
+  params: { updateProduct: string };
+}) {
   const [sub, setSub] = useState(false);
   const [sale, setSale] = useState<boolean>(false);
   const [subMenu, setSubmenu] = useState([]);
   const [menu, setMenu] = useState<Menu[]>(menuData);
   const [brands, setBrands] = useState([]);
-  const [brand, setBrand] = useState();
+  const [brand, setBrand] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [characteristics, setCharacteristics] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const [subcategory, setSubcategory] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
+  const [fetchImage, setFetchImage] = useState([]);
+  const [salePrice, setSalePrice] = useState<number>(0);
   const setNotification = notificationState((state) => state.setNotification);
   const setNotificationMessage = notificationMessage(
     (state) => state.setNotificationMessage
   );
-
-  // получение категорий
 
   useEffect(() => {
     const fetchSubmenuData = async () => {
@@ -61,10 +70,34 @@ export default function AddProduct() {
       }
     };
     fetchBrands();
+
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `/api/product?id=${params.updateProduct}`
+        );
+
+        setCharacteristics(response.data.data.characteristics || "");
+        setCategory(response.data.data.category || "");
+        setSubcategory(response.data.data.subcategory || "");
+        setDescription(response.data.data.description || "");
+        setBrand(response.data.data.brand || "");
+        setPrice(response.data.data.price || 0);
+        setSalePrice(response.data.data.salePrice || 0);
+        setSale(response.data.data.sale || false);
+        setTitle(response.data.data.name || "");
+        setFetchImage(response.data.data.image || []);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProduct();
   }, []);
 
   const categoryHandler = (e) => {
+    setCategory(e.target.value);
     const selectedValue = e.target.value;
+
     const selectedCategoryObj = menu[1].submenu.find(
       (category) => category.title === selectedValue
     );
@@ -78,99 +111,88 @@ export default function AddProduct() {
     }
   };
 
-  const brandHandler = (e) => {
-    setBrand(e.target.value);
-  };
-
   ////image handle
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const name = e.target.name.value as string;
-    const category = e.target.category.value as string;
-    const subcategory =
-      e.target.subcategory === undefined
-        ? ""
-        : (e.target.subcategory.value as string);
-    const description = e.target.description.value as string;
-    const characteristics = e.target.characteristics.value;
-    const price = e.target.price.value as number;
+
     const productImage = e.target.image.files;
-    const image = [];
-    const salePrice = e.target.salePrice.value as number;
+    const uploadedImageUrls = [];
 
-    if (productImage === undefined) return console.log("error image uploads");
+    if (!productImage) return console.error("Error: No images to upload");
 
-    // Загрузка изображений и ожидание их завершения
-    await Promise.all(
-      Object.keys(productImage).map(async (key) => {
-        const img = productImage[key];
-        const storageRef = ref(storage, `product/${name}/${img.name}`);
+    try {
+      // Загрузка каждого изображения
+      await Promise.all(
+        Object.keys(productImage).map(async (key) => {
+          const img = productImage[key];
+          const storageRef = ref(storage, `product/${name}/${img.name}`);
 
-        const uploadTask = uploadBytesResumable(storageRef, img);
-        // Ожидание загрузки изображения
-        await new Promise<void>((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              // Обработка прогресса загрузки, если необходимо
-            },
-            (error) => {
-              reject(error); // Ошибка при загрузке изображения
-            },
-            () => {
-              getDownloadURL(uploadTask.snapshot.ref)
-                .then((downloadURL) => {
-                  image.push(downloadURL); // Добавление URL в массив
-                  resolve(); // Завершение промиса после успешной загрузки изображения
-                })
-                .catch((error) => {
-                  reject(error); // Ошибка при получении URL изображения
-                });
-            }
-          );
-        });
-      })
-    );
+          const uploadTask = uploadBytesResumable(storageRef, img);
 
-    // После завершения всех загрузок изображений
-    if (image.length === Object.keys(productImage).length) {
-      console.log("All images uploaded successfully");
+          // Ожидание завершения загрузки изображения
+          await new Promise<void>((resolve, reject) => {
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                // Отслеживание прогресса загрузки, если нужно
+              },
+              (error) => {
+                console.error("Error uploading image:", error);
+                reject(error);
+              },
+              () => {
+                // Загрузка завершена успешно
+                getDownloadURL(uploadTask.snapshot.ref)
+                  .then((downloadURL) => {
+                    uploadedImageUrls.push(downloadURL); // Добавление URL в массив
+                    resolve();
+                  })
+                  .catch((error) => {
+                    console.error("Error getting download URL:", error);
+                    reject(error);
+                  });
+              }
+            );
+          });
+        })
+      );
 
-      try {
-        // Отправка запроса POST для добавления продукта
-        const response = await fetch("/api/product", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            characteristics,
-            description,
-            image,
-            category,
-            subcategory,
-            price,
-            sale,
-            salePrice,
-            brand,
-          }),
-        });
+      // После завершения всех загрузок изображений
+      setFetchImage([...fetchImage, ...uploadedImageUrls]); // Обновление состояния fetchImage
 
-        if (response.ok) {
-          setNotification(true);
-          setNotificationMessage("Product added successfully");
-          location.reload();
-        } else {
-          setNotification(true);
-          setNotificationMessage("Failed to add product");
-        }
-      } catch (error) {
-        console.log("Error:", error);
+      // Отправка данных продукта после загрузки изображений
+      const response = await fetch("/api/productUpdate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: params.updateProduct,
+          name: title,
+          characteristics,
+          description,
+          image: [...fetchImage, ...uploadedImageUrls], // Используем обновленный массив fetchImage
+          category,
+          subcategory,
+          price,
+          sale,
+          salePrice,
+          brand,
+        }),
+      });
+
+      if (response.ok) {
+        setNotification(true);
+        setNotificationMessage("Product updated successfully");
+        location.reload();
+      } else {
+        setNotification(true);
+        setNotificationMessage("Failed to update product");
       }
-    } else {
+    } catch (error) {
+      console.error("Error updating product:", error);
       setNotification(true);
-      setNotificationMessage("Error uploading images");
+      setNotificationMessage("Error updating product");
     }
   };
 
@@ -181,7 +203,7 @@ export default function AddProduct() {
           <AddButton buttonText={"Back"} />
         </Link>
       </div>
-      <h1 className="mt-5 text-center text-[30px]">Add product</h1>
+      <h1 className="mt-5 text-center text-[30px]">Update product</h1>
       <form onSubmit={handleSubmit} className="mb-10 mt-10 w-[90%]">
         <div className=" flex flex-wrap gap-5">
           <div className="mb-8">
@@ -195,6 +217,8 @@ export default function AddProduct() {
               type="text"
               name="name"
               placeholder="Enter product name"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
               className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
@@ -210,6 +234,7 @@ export default function AddProduct() {
               <select
                 name="category"
                 required
+                value={category}
                 className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 onChange={categoryHandler}
               >
@@ -232,6 +257,8 @@ export default function AddProduct() {
                 <select
                   name="subcategory"
                   required
+                  onChange={(e) => setSubcategory(e.target.value)}
+                  value={subcategory}
                   className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                 >
                   {subMenu.map((subcategory) => {
@@ -256,7 +283,8 @@ export default function AddProduct() {
               name="brand"
               required
               className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
-              onChange={brandHandler}
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
             >
               {brands.map((item) => (
                 <option key={item._id} value={item.name}>
@@ -277,6 +305,8 @@ export default function AddProduct() {
           <textarea
             name="description"
             placeholder="Enter description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
             className="h-[200px] w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
@@ -291,6 +321,8 @@ export default function AddProduct() {
           </label>
           <textarea
             name="characteristics"
+            value={characteristics}
+            onChange={(e) => setCharacteristics(e.target.value)}
             placeholder="Enter product characteristics"
             required
             className="h-[200px] w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
@@ -310,6 +342,8 @@ export default function AddProduct() {
               name="price"
               placeholder="Enter product price"
               min={0}
+              value={price}
+              onChange={(e) => setPrice(+e.target.value)}
               required
               className=" w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
@@ -326,7 +360,6 @@ export default function AddProduct() {
               name="image"
               placeholder="Enter product image"
               multiple
-              required
               className=" w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             />
           </div>
@@ -340,10 +373,11 @@ export default function AddProduct() {
               Product is sale?
             </label>
             <input
-              onClick={() => setSale(!sale)}
-              name="isSale"
               type="checkbox"
-              className=" w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+              name="sale"
+              checked={sale}
+              onChange={(e) => setSale(e.target.checked)}
+              className="form-checkbox h-5 w-5 text-primary"
             />
           </div>
           <div className="mb-8">
@@ -358,6 +392,8 @@ export default function AddProduct() {
               name="salePrice"
               placeholder="Enter sale price"
               min={0}
+              value={salePrice}
+              onChange={(e) => setSalePrice(+e.target.value)}
               className=" w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
               disabled={!sale}
             />

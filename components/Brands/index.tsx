@@ -8,40 +8,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
 
-const brandsData: Brand[] = [
-  {
-    id: 1,
-    name: "Hikvision",
-    href: "https://hikvision.com",
-    image: "/images/brands/hik.svg",
-  },
-  {
-    id: 2,
-    name: "Dahua",
-    href: "https://dahua.com",
-    image: "/images/brands/dahua.svg",
-  },
-  {
-    id: 3,
-    name: "Rubej",
-    href: "https://rubej.com",
-    image: "/images/brands/rubej.svg",
-  },
-  {
-    id: 4,
-    name: "Vers",
-    href: "https://vers.com",
-    image: "/images/brands/vers.svg",
-  },
-  {
-    id: 5,
-    name: "Tp-link",
-    href: "https://tp-link.com",
-    image: "/images/brands/tplink.svg",
-  },
-];
-
-const Brands = () => {
+const Brands = ({ brandsData }) => {
   return (
     <section className="pt-16">
       <div className="container">
@@ -70,7 +37,7 @@ const Brands = () => {
               >
                 {brandsData.map((brand, i) => (
                   <SwiperSlide key={i}>
-                    <SingleBrand key={brand.id} brand={brand} />
+                    <SingleBrand key={brand._id} brand={brand} />
                   </SwiperSlide>
                 ))}
               </Swiper>

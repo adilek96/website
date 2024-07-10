@@ -1,10 +1,10 @@
 import AddButton from "@/components/AddButton";
-import { authConfig } from "@/configs/auth";
-import { getServerSession } from "next-auth/next";
+import BrandsCard from "@/components/BrandsCard";
+import { fetchBrands } from "@/lib/data";
 import Link from "next/link";
 
 export default async function Brands() {
-  const session = await getServerSession(authConfig);
+  const brands = await fetchBrands();
 
   return (
     <section>
@@ -15,7 +15,11 @@ export default async function Brands() {
         </Link>
       </div>
       <div className="mt-5 px-4">
-        <div className="relative overflow-x-auto"></div>
+        <div className="mb-10 flex flex-wrap justify-around gap-8">
+          {brands.pdata.map((item) => {
+            return <BrandsCard item={item} />;
+          })}
+        </div>
       </div>
     </section>
   );
