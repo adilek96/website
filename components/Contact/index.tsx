@@ -1,6 +1,4 @@
 import NewsLatterBox from "./NewsLatterBox";
-import { authConfig } from "@/configs/auth";
-import { getServerSession } from "next-auth/next";
 
 const serviceType = [
   "Help to chose",
@@ -11,9 +9,7 @@ const serviceType = [
   "Software setting",
 ];
 
-const Contact = async () => {
-  const session = await getServerSession(authConfig);
-
+export default function Contact({ session }) {
   return (
     <section id="service" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
@@ -22,7 +18,7 @@ const Contact = async () => {
             <div
               className="wow fadeInUp mb-12 rounded-md bg-primary/[3%] px-8 py-11 dark:bg-dark sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]"
               data-wow-delay=".15s
-              "
+                "
             >
               <h2 className="mb-3 text-2xl font-bold text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
                 Need Help? Open a Ticket
@@ -42,7 +38,9 @@ const Contact = async () => {
                       </label>
                       <input
                         type="text"
-                        value={session !== null ? session.user.name : null}
+                        defaultValue={
+                          session !== null ? session.user.name : null
+                        }
                         placeholder="Enter your name"
                         className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                       />
@@ -59,7 +57,7 @@ const Contact = async () => {
                       <input
                         type="phone"
                         placeholder="Enter your phone"
-                        value={
+                        defaultValue={
                           (session !== null &&
                             (session.user as { phone?: string }).phone) ||
                           ""
@@ -121,6 +119,4 @@ const Contact = async () => {
       </div>
     </section>
   );
-};
-
-export default Contact;
+}

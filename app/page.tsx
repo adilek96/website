@@ -6,9 +6,12 @@ import Features from "@/components/Features";
 import Hero from "@/components/Hero";
 import ModalProductBag from "@/components/ModalProductBag";
 import { fetchBrands } from "@/lib/data";
+import { authConfig } from "@/configs/auth";
+import { getServerSession } from "next-auth/next";
 
 export default async function Home() {
   const brands = await fetchBrands();
+  const session = await getServerSession(authConfig);
 
   return (
     <>
@@ -18,7 +21,7 @@ export default async function Home() {
       <Features />
       <Brands brandsData={brands.pdata} />
       <AboutSectionOne />
-      <Contact />
+      <Contact session={session} />
     </>
   );
 }
