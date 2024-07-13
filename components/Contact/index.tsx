@@ -44,7 +44,9 @@ export default function Contact({ session }: any) {
                         autoComplete="name"
                         required
                         defaultValue={
-                          session !== null ? session.user.name : null
+                          (session !== null &&
+                            (session.user as { name?: string }).name) ||
+                          ""
                         }
                         placeholder="Enter your name"
                         className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
