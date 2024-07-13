@@ -18,7 +18,7 @@ export default function ProfileLayout({
       <div className="container flex w-full   ">
         <div className=" w-full    overflow-auto  rounded-md   ">
           <div className="cover flex h-[250px] max-w-full items-center justify-center rounded-b-none rounded-t-md  bg-body-color bg-opacity-35 shadow-xl">
-            <ProfileHeader ProfileLinks={ProfileLinks} />
+            <ProfileHeader ProfileLinks={ProfileLinks} type={"main"} />
           </div>
 
           <Notification />

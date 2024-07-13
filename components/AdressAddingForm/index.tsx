@@ -86,7 +86,7 @@ export default function AddressAddingForm({ session, addressId }) {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/getAdress?id=${session.user.id}&addressId=${addressId}`
+        `/api/getAdress?id=${session.user.id}&addressId=${addressId}`
       );
 
       setSelectedDistrict(response.data[0].district);
@@ -157,11 +157,13 @@ export default function AddressAddingForm({ session, addressId }) {
           <input
             type="text"
             name="country"
+            autoComplete="off"
+            id="country"
             value={country}
             placeholder="Country"
             readOnly
             required
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -174,9 +176,11 @@ export default function AddressAddingForm({ session, addressId }) {
           </label>
           <select
             name="city"
+            id="city"
+            autoComplete="off"
             required
             value={selectedCity}
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             onChange={cityHandler}
           >
             {cities.map((item) => (
@@ -196,9 +200,11 @@ export default function AddressAddingForm({ session, addressId }) {
           </label>
           <select
             name="district"
+            id="district"
+            autoComplete="off"
             required
             value={selectedDistrict}
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
             onChange={districtHandler}
           >
             {districts.map((item) => (
@@ -218,11 +224,13 @@ export default function AddressAddingForm({ session, addressId }) {
           </label>
           <textarea
             name="street"
+            id="street"
+            autoComplete="off"
             value={street}
             placeholder="Street"
             onChange={(e) => setStreet(e.target.value)}
             required
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
@@ -236,18 +244,20 @@ export default function AddressAddingForm({ session, addressId }) {
           <input
             type="text"
             name="postalCode"
+            id="postalCode"
+            autoComplete="off"
             value={postalCode}
             placeholder="AZ ####"
             pattern="AZ\d{4}"
             onChange={(e) => setPostalCode(e.target.value)}
             required
-            className="w-full rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+            className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
           />
         </div>
 
         <button
           type="submit"
-          className="mb-16 flex w-full items-center justify-center rounded-md bg-primary py-4 px-9 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
+          className="mb-16 flex w-full items-center justify-center rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp"
         >
           {addressId === null ? "Add" : "Update"}
         </button>

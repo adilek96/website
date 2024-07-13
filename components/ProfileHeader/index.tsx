@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 
-export default function ProfileHeader({ ProfileLinks }) {
+export default function ProfileHeader({ ProfileLinks, type }) {
   const pathname = usePathname();
   const isActive = (href) => pathname === href;
   return (
@@ -24,15 +24,17 @@ export default function ProfileHeader({ ProfileLinks }) {
             </li>
           );
         })}
-        <li className="md:hidden">
-          <Link
-            href="#"
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="font-bold text-dark  hover:opacity-70 dark:text-white  "
-          >
-            Sign Out
-          </Link>
-        </li>
+        {type === "main" ? (
+          <li className="md:hidden">
+            <Link
+              href="#"
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="font-bold text-dark  hover:opacity-70 dark:text-white  "
+            >
+              Sign Out
+            </Link>
+          </li>
+        ) : null}
       </ul>
     </div>
   );

@@ -52,7 +52,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="absolute right-0 top-0 z-[-1] h-[500px] w-[500px] opacity-30 lg:opacity-0 ">
+        <div className="absolute right-0 top-0 z-[-1] h-[500px] w-[500px] opacity-30 lg:opacity-50">
           <RiveComponent />
         </div>
         <div className="absolute bottom-0 left-0 z-[-1] h-[500px] w-[500px] opacity-30 lg:opacity-100">

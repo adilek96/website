@@ -1,3 +1,4 @@
+import { ticketsAction } from "@/app/actions/ticketsAction";
 import NewsLatterBox from "./NewsLatterBox";
 
 const serviceType = [
@@ -9,7 +10,7 @@ const serviceType = [
   "Software setting",
 ];
 
-export default function Contact({ session }) {
+export default function Contact({ session }: any) {
   return (
     <section id="service" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
@@ -26,7 +27,7 @@ export default function Contact({ session }) {
               <p className="mb-12 text-base font-medium text-body-color">
                 Our support team will get back to you ASAP via phone.
               </p>
-              <form>
+              <form action={ticketsAction}>
                 <div className="-mx-4 flex flex-wrap">
                   <div className="w-full px-4 md:w-1/2">
                     <div className="mb-8">
@@ -38,6 +39,10 @@ export default function Contact({ session }) {
                       </label>
                       <input
                         type="text"
+                        id="name"
+                        name="tname"
+                        autoComplete="name"
+                        required
                         defaultValue={
                           session !== null ? session.user.name : null
                         }
@@ -55,8 +60,13 @@ export default function Contact({ session }) {
                         Your Phone
                       </label>
                       <input
-                        type="phone"
-                        placeholder="Enter your phone"
+                        type="tel"
+                        id="phone"
+                        name="tphone"
+                        autoComplete="tel"
+                        pattern="\+994\d{9}"
+                        placeholder="+994"
+                        required
                         defaultValue={
                           (session !== null &&
                             (session.user as { phone?: string }).phone) ||
@@ -76,6 +86,8 @@ export default function Contact({ session }) {
                       </label>
                       <select
                         name="type"
+                        id="type"
+                        autoComplete="off"
                         required
                         className="w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                       >
@@ -97,12 +109,23 @@ export default function Contact({ session }) {
                       </label>
                       <textarea
                         name="message"
+                        id="message"
                         rows={5}
                         placeholder="Enter your Message"
                         className="w-full resize-none rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
                       ></textarea>
                     </div>
                   </div>
+                  <input
+                    type="hidden"
+                    name="userId"
+                    defaultValue={
+                      (session !== null &&
+                        (session.user as { id?: string }).id) ||
+                      ""
+                    }
+                    readOnly
+                  />
                   <div className="w-full px-4">
                     <button className="rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
                       Submit Ticket

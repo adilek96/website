@@ -66,6 +66,8 @@ export default function ProfileCard({ user }) {
           <input
             type="text"
             name="fullname"
+            id="fullname"
+            autoComplete="name"
             value={fullname}
             placeholder="My name"
             onChange={(e) => setFullname(e.target.value)}
@@ -84,8 +86,10 @@ export default function ProfileCard({ user }) {
           <input
             type="email"
             name="email"
+            id="email"
             placeholder="Email"
             value={email}
+            autoComplete="email"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -105,7 +109,9 @@ export default function ProfileCard({ user }) {
           <input
             type="tel"
             name="phone"
+            id="phone"
             value={phone}
+            autoComplete="tel"
             onChange={(e) => setPhone(e.target.value)}
             pattern="\+994\d{9}"
             placeholder="+994"
@@ -123,6 +129,8 @@ export default function ProfileCard({ user }) {
           <input
             type="date"
             name="birthday"
+            id="birthday"
+            autoComplete="off"
             placeholder="Birthday"
             max={maxDate}
             value={
