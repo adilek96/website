@@ -1,75 +1,47 @@
-"use client";
-import DeleteSvg from "@/public/images/delete/DeleteSvg";
+import { updateTicketsAction } from "@/app/actions/updateTicketsAction";
 import React from "react";
 
-export default function TicketCard({ item }) {
-  const deleteHandler = async () => {};
+export default function TicketCard({ item, page }) {
   return (
-    <form className=" flex flex-col items-center justify-center rounded-md bg-body-color bg-opacity-50 p-10">
-      <div className="flex w-full justify-end  text-end">
-        <button type="button" onClick={() => deleteHandler()}>
-          <DeleteSvg />
-        </button>
+    <form
+      action={updateTicketsAction}
+      className=" flex w-[300px] flex-col items-center justify-center gap-3 rounded-md bg-body-color bg-opacity-50 p-10"
+    >
+      <div className="flex w-full justify-between ">
+        <p className="font-bold ">From:</p>
+        <p>{item.tname}</p>
+      </div>
+      <div className="flex w-full justify-between">
+        <p className="font-bold ">Contact number:</p>
+        <p>{item.phone}</p>
       </div>
 
-      <label
-        htmlFor="subtitle"
-        className="mb-3 block text-sm font-medium text-dark dark:text-white"
-      >
-        Title
-      </label>
-      <input
-        type="text"
-        name="subtitle"
-        id="subtitle"
-        // value={subtitle}
-        // onChange={(e) => setSubtitle(e.target.value)}
-        placeholder="Enter category title"
-        required
-        className="mb-3 w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
-      />
-      <label
-        htmlFor="subpath"
-        className="mb-3 block text-sm font-medium text-dark dark:text-white"
-      >
-        Path
-      </label>
-      <input
-        type="text"
-        name="subpath"
-        id="subpath"
-        // value={subpath}
-        // onChange={(e) => setSubpath(e.target.value)}
-        placeholder="Enter category path"
-        required
-        className=" mb-3 w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
-      />
-      <label
-        htmlFor="subnewtab"
-        className="mb-3 block text-sm font-medium text-dark dark:text-white"
-      >
-        Open this in newtab?
-      </label>
-
-      <select
-        name="subnewtab"
-        id="subnewtab"
-        required
-        // value={subnewtab}
-        // onChange={(e) => setSubnewTab(e.target.value)}
-        className="mb-5 w-full rounded-md border border-transparent px-6 py-3 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
-      >
-        <option value="false">No</option>
-        <option value="true">Yes</option>
-      </select>
-      <div className="flex w-full items-center justify-end">
-        <button
-          type="submit"
-          className="rounded-md bg-green px-4 py-2 text-center text-[14px]"
-        >
-          Save
-        </button>
+      <div className="flex w-full justify-between">
+        <p className="font-bold ">Service type:</p>
+        <p>{item.type}</p>
       </div>
+      <div className="flex w-full justify-between">
+        <p className="font-bold ">Message:</p>
+        <p>{item.message}</p>
+      </div>
+      <div className="flex w-full justify-between">
+        <p className="font-bold text-green ">Create date:</p>
+        <p>{item.createDate}</p>
+      </div>
+      <input
+        type="hidden"
+        name="ticketId"
+        id="ticketId"
+        readOnly
+        defaultValue={item._id}
+      />
+      {item.status === "Processing" && page === "Dashboard" ? (
+        <div className="flex w-full items-center justify-end">
+          <button className="rounded-md bg-green px-4 py-2 text-center text-[14px] text-white">
+            Close ticket
+          </button>
+        </div>
+      ) : null}
     </form>
   );
 }

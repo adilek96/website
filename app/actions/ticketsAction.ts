@@ -13,13 +13,13 @@ export async function ticketsAction(formData) {
   const ticketsMessage = formData.get("message");
   const userId = formData.get("userId")
   const objId = userId ?  new ObjectId(userId) : null;
- console.log(ticketsName)
+
 
   
 try {
   await connectMongoDB();
   await Ticket.create(
-     { tname: ticketsName, phone:  ticketsPhone, type: ticketsType, message: ticketsMessage, objId} 
+     { tname: ticketsName, phone:  ticketsPhone, type: ticketsType, message: ticketsMessage, userId: objId} 
     
   );
   } catch (error) {

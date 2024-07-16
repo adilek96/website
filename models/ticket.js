@@ -27,6 +27,10 @@ const brandSchema = new Schema({
     ref: "User",
     required: false,
   },
+  createDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Ticket = models.Ticket || mongoose.model("Ticket", brandSchema);

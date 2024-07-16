@@ -1,10 +1,10 @@
 import TicketCard from "@/components/TicketCard.tsx";
 import { fetchProcessingTickets } from "@/lib/data";
 
-const DashboardTickets = async () => {
+const DashboardCompleteTickets = async () => {
   const response = await fetchProcessingTickets({
     userId: null,
-    status: "Processing",
+    status: "Complete",
   });
 
   return (
@@ -15,4 +15,4 @@ const DashboardTickets = async () => {
     </div>
   );
 };
-export default DashboardTickets;
+export default DashboardCompleteTickets;
