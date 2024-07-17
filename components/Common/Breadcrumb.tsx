@@ -17,9 +17,9 @@ const Breadcrumb = ({
                 <h1 className="mb-5 text-2xl font-bold text-black dark:text-white sm:text-3xl">
                   {pageName}
                 </h1>
-                <p className="text-base font-medium leading-relaxed text-body-color">
+                {/* <p className="text-base font-medium leading-relaxed text-body-color">
                   {description}
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="w-full px-4 md:w-4/12 lg:w-5/12">
@@ -32,7 +32,7 @@ const Breadcrumb = ({
                     >
                       Home
                     </Link>
-                    <span className="mr-3 block h-2 w-2 rotate-45 border-t-2 border-r-2 border-body-color"></span>
+                    <span className="mr-3 block h-2 w-2 rotate-45 border-r-2 border-t-2 border-body-color"></span>
                   </li>
                   <li className="text-base font-medium text-primary">
                     {pageName}
@@ -44,7 +44,7 @@ const Breadcrumb = ({
         </div>
 
         <div>
-          <span className="absolute top-0 left-0 z-[-1]">
+          <span className="absolute left-0 top-0 z-[-1]">
             <svg
               width="287"
               height="254"

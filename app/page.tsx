@@ -21,7 +21,7 @@ export default async function Home() {
       <Features />
       <Brands brandsData={brands.pdata} />
       <AboutSectionOne />
-      <Contact session={session} />
+      <Contact session={session} page={"Home"} />
     </>
   );
 }

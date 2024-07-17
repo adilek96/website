@@ -20,6 +20,10 @@ interface TotalPrice {
   totalPrice: number;
   setTotalPrice: (isPrice: number) => void;
 }
+ interface TotalQuantity {
+  totalQuantity: number;
+  setTotalQuantity:  (isQuantity: number) => void;
+ }
 
 export const shopBagState = create<ShopBag>((set) => ({
   userCart: [],
@@ -29,4 +33,9 @@ export const shopBagState = create<ShopBag>((set) => ({
 export const totalPriceState = create<TotalPrice>((set) => ({
   totalPrice: 0,
   setTotalPrice: (isPrice) => set({ totalPrice: isPrice }),
+}));
+
+export const totalQuantityState = create<TotalQuantity>((set) => ({
+  totalQuantity: 0,
+  setTotalQuantity: (isQuantity) => set({ totalQuantity: isQuantity }),
 }));

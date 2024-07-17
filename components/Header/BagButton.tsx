@@ -1,4 +1,4 @@
-const BagButton = () => {
+const BagButton = ({ totalQuantity }) => {
   return (
     <button className="relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-black hover:opacity-70 dark:text-white md:h-14 md:w-14">
       <svg
@@ -20,7 +20,7 @@ const BagButton = () => {
       </svg>
 
       <div className="absolute right-3 top-0 flex h-3 w-3 items-center justify-center rounded-full bg-yellow text-[8px] md:right-[22px] md:top-1">
-        <p>0</p>
+        <p>{totalQuantity}</p>
       </div>
     </button>
   );

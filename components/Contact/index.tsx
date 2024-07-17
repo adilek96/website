@@ -10,7 +10,7 @@ const serviceType = [
   "Software setting",
 ];
 
-export default function Contact({ session }: any) {
+export default function Contact({ session, page }: any) {
   return (
     <section id="service" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
@@ -137,9 +137,11 @@ export default function Contact({ session }: any) {
               </form>
             </div>
           </div>
-          <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
-            <NewsLatterBox />
-          </div>
+          {page === "Home" ? (
+            <div className="w-full px-4 lg:w-5/12 xl:w-4/12">
+              <NewsLatterBox />
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

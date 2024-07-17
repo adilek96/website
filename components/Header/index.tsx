@@ -14,6 +14,7 @@ import ProfileIcon from "@/public/images/profileIcon/ProfileIcon";
 import LanguageIcon from "@/public/images/language/LanguageIcon";
 import SearchIcon from "@/public/images/search/SearchIcon";
 import Search from "../Search";
+import { totalQuantityState } from "@/store/shoppingBagState";
 
 const Header = () => {
   const [menu, setMenu] = useState<Menu[]>(menuData);
@@ -22,6 +23,7 @@ const Header = () => {
   const [openIndex, setOpenIndex] = useState(-1);
   const [shopCardTrigger, setShopCardTrigger] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const totalQuantity = totalQuantityState((state) => state.totalQuantity);
 
   const session = useSession();
 
@@ -255,7 +257,7 @@ const Header = () => {
                     onClick={() => setShopCardTrigger(!shopCardTrigger)}
                     className="group "
                   >
-                    <BagButton />
+                    <BagButton totalQuantity={totalQuantity} />
                   </div>
                   <div className="hidden  md:block">
                     <ThemeToggler />
@@ -269,7 +271,7 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`submenu  absolute right-0 z-50  rounded-md   bg-white p-4 opacity-0 shadow-lg  transition-[top] duration-300 dark:bg-dark  ${
+          className={`submenu  absolute right-3 z-50 rounded-md  bg-white   p-4 opacity-0 shadow-lg transition-[top]  duration-300 dark:bg-dark lg:right-32  ${
             shopCardTrigger ? "visible top-[100%]   opacity-100" : "invisible"
           }`}
         >

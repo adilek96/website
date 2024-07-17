@@ -30,8 +30,8 @@ const Brands = ({ brandsData }) => {
                   1080: { slidesPerView: 4 },
                 }}
                 modules={[Autoplay]}
-                autoplay={{ delay: 500 }}
-                speed={900}
+                autoplay={{ delay: 0 }}
+                speed={2000}
                 centeredSlides={true}
                 className="h-full w-full  "
               >

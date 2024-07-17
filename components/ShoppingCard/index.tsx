@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import Loading from "@/app/loading";
 import { shopBagState } from "@/store/shoppingBagState";
 import { totalPriceState } from "@/store/shoppingBagState";
+import { totalQuantityState } from "@/store/shoppingBagState";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -15,13 +16,15 @@ export default function ShoppingCard({ setShopCardTrigger }) {
   const router = useRouter();
   const pathname = usePathname();
   const { data, status } = useSession();
-  // const [userCart, setUserCart] = useState([]);
   const userCart = shopBagState((state) => state.userCart);
   const setUserCart = shopBagState((state) => state.setUserCart);
   const [isLoad, setIsLoad] = useState(false);
-  // const [totalPrice, setTotalPrice] = useState(0);
   const totalPrice = totalPriceState((state) => state.totalPrice);
   const setTotalPrice = totalPriceState((state) => state.setTotalPrice);
+  const totalQuantity = totalQuantityState((state) => state.totalQuantity);
+  const setTotalQuantity = totalQuantityState(
+    (state) => state.setTotalQuantity
+  );
   const [post, setPost] = useState(false);
   const shopModal = shopModalState((state) => state.shopModal);
 
@@ -146,7 +149,9 @@ export default function ShoppingCard({ setShopCardTrigger }) {
             const itemPrice = item.sale ? item.salePrice : item.price;
             return acc + itemPrice * item.quantity;
           }, 0);
+
           setTotalPrice(price);
+          setTotalQuantity(res.length);
           setUserCart(res);
           setIsLoad(true);
           setPost(false);
@@ -165,6 +170,7 @@ export default function ShoppingCard({ setShopCardTrigger }) {
             return acc + itemPrice * item.quantity;
           }, 0);
           setTotalPrice(price);
+          setTotalQuantity(res.length);
           setUserCart(res);
           setIsLoad(true);
           setPost(false);

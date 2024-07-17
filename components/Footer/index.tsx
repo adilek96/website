@@ -9,11 +9,11 @@ const Footer = () => {
         data-wow-delay=".1s"
       >
         <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
-              <div className="mb-18 flex max-w-[260px]  flex-col items-center   justify-center lg:mb-16  ">
+          <div className=" flex flex-wrap">
+            <div className="flex  w-full justify-center px-4 lg:w-4/12 xl:w-4/12">
+              <div className="mb-18 flex w-full  flex-col items-center   justify-center lg:mb-16  ">
                 <Link href="/">
-                  <div className="mb-8 ml-0 w-[260px] ">
+                  <div className="mb-8 ml-0 w-[300px] ">
                     <Image
                       src="/images/logo/logo-2.svg"
                       alt="logo"
@@ -32,10 +32,7 @@ const Footer = () => {
                     />
                   </div>
                 </Link>
-                {/* <p className="mb-9 text-base font-medium leading-relaxed text-body-color">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Integer lobortis.
-                </p> */}
+
                 <div className="mb-16 flex items-center">
                   <a
                     href="/"
@@ -97,42 +94,42 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
-              <div className="mb-12 lg:mb-16">
+            <div className="flex w-full justify-center  px-4 md:w-1/2  lg:w-4/12 xl:w-4/12">
+              <div className="mb-12  lg:mb-16">
                 <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
                   Useful Links
                 </h2>
                 <ul>
                   <li>
-                    <a
-                      href="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      Pricing
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/"
+                    <Link
+                      href="/about"
                       className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
                     >
                       About
+                    </Link>
+                  </li>
+                  <li>
+                    <a
+                      href="/products"
+                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
+                    >
+                      Products
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/services"
+                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
+                    >
+                      Services
                     </a>
                   </li>
                 </ul>
               </div>
             </div>
 
-            <div className="w-full px-4 sm:w-1/2 md:w-1/2 lg:w-2/12 xl:w-2/12">
-              <div className="mb-12 lg:mb-16">
+            <div className="flex w-full justify-center px-4 md:w-1/2 lg:w-4/12 xl:w-4/12">
+              <div className=" mb-12  lg:mb-16">
                 <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
                   Terms
                 </h2>
@@ -167,49 +164,15 @@ const Footer = () => {
                 </ul>
               </div>
             </div>
-
-            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-3/12">
-              <div className="mb-12 lg:mb-16">
-                <h2 className="mb-10 text-xl font-bold text-black dark:text-white">
-                  Support & Help
-                </h2>
-                <ul>
-                  <li>
-                    <a
-                      href="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      {" "}
-                      Open Support Ticket{" "}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      {" "}
-                      Terms of Use{" "}
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      className="mb-4 inline-block text-base font-medium text-body-color hover:text-primary"
-                    >
-                      {" "}
-                      About{" "}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
         </div>
         <div className="bg-primary  bg-opacity-5 py-8">
           <div className="container">
             <p className="text-center text-base text-body-color dark:text-white">
-              website
+              IT company
+            </p>
+            <p className="text-center text-base text-body-color dark:text-white">
+              &copy; 2024 All rights reserved.
             </p>
           </div>
         </div>

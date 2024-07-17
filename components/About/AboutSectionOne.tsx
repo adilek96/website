@@ -24,10 +24,17 @@ const AboutSectionOne = () => {
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-1/2">
               <SectionTitle
-                title="Crafted for Startup, SaaS and Business Sites."
-                paragraph="The main ‘thrust’ is to focus on educating attendees on how to best protect highly vulnerable business applications with interactive panel discussions and roundtables."
+                title="Integrated Security Systems IT Company"
+                paragraph="We install modern video surveillance systems, access control and security and fire systems to protect private property and business.
+Unlike traditional companies, we provide favorable prices and guaranteed results to private Clients, small and medium-sized businesses due to the developed 4-stage implementation technology and 3 stages of quality control for each project."
                 mb="44px"
               />
+              <h3 className="mb-4 text-2xl font-bold !leading-tight text-black dark:text-white sm:text-4xl md:text-[45px]">
+                Our services
+              </h3>
+              <h4 className="mb-6 text-base font-bold !leading-relaxed text-body-color md:text-xl">
+                We will do everything for your safety
+              </h4>
 
               <div
                 className="wow fadeInUp mb-12 max-w-[570px] lg:mb-0"
@@ -35,15 +42,15 @@ const AboutSectionOne = () => {
               >
                 <div className="mx-[-12px] flex flex-wrap">
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Premium quality" />
-                    <List text="Tailwind CSS" />
-                    <List text="Use for lifetime" />
+                    <List text="We help in choosing" />
+                    <List text="We design" />
+                    <List text="We install equipment" />
                   </div>
 
                   <div className="w-full px-3 sm:w-1/2 lg:w-full xl:w-1/2">
-                    <List text="Next.js" />
-                    <List text="Rich documentation" />
-                    <List text="Developer friendly" />
+                    <List text="Setting it up" />
+                    <List text="We serve" />
+                    <List text="We repair" />
                   </div>
                 </div>
               </div>
@@ -55,10 +62,16 @@ const AboutSectionOne = () => {
                 data-wow-delay=".2s"
               >
                 <Image
-                  src="/images/about/about-image.svg"
+                  src="/images/logo/logo-2.svg"
                   alt="about-image"
                   fill
-                  className="mx-auto max-w-full lg:mr-0"
+                  className="mx-auto max-w-full dark:hidden  lg:mr-0"
+                />
+                <Image
+                  src="/images/logo/logo.svg"
+                  alt="about-image"
+                  fill
+                  className="mx-auto hidden   max-w-full dark:block lg:mr-0"
                 />
               </div>
             </div>
