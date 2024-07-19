@@ -17,6 +17,11 @@ interface MaxPrice {
     setMaxPrice: (isActive: Number) => void
 }
 
+interface Brand {
+  selectedBrand: String;
+  setSelectedBrand: (isActive: String) => void
+}
+
 export const sortByState = create<SortBy>()((set) => ({
     sortBy: "name",
     setSortBy: (isActive) => set({ sortBy: isActive }),
@@ -35,4 +40,9 @@ export const minPriceState = create<MinPrice>()((set) => ({
 export const maxPriceState = create<MaxPrice>()((set) => ({
     maxPrice: 0,
     setMaxPrice: (isActive) => set({maxPrice: isActive }),
+  }))
+
+  export const brandState = create<Brand>()((set) => ({
+    selectedBrand: "All",
+    setSelectedBrand: (isActive) => set({ selectedBrand: isActive }),
   }))

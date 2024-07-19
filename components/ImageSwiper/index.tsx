@@ -28,12 +28,12 @@ export default function ImageSwiper({ images }) {
         {images.map((img, i) => {
           return (
             <SwiperSlide key={i}>
-              <div className="flex h-full w-full items-center justify-center">
+              <div className="relative flex h-[350px] w-[350px] items-center justify-center">
                 <Image
                   src={img}
                   alt={"img"}
                   fill
-                  className="block h-full w-full object-cover"
+                  className="h-[350px] w-[350px]   object-cover"
                 />
               </div>
             </SwiperSlide>

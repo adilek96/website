@@ -12,6 +12,7 @@ import {
   selectedCategoryState,
   minPriceState,
   maxPriceState,
+  brandState,
 } from "@/store/sortingStore";
 import { Menu } from "@/types/menu";
 
@@ -23,6 +24,7 @@ export default function Products({ params }: { params: { category: string } }) {
   const selectedCategory = selectedCategoryState(
     (state) => state.selectedCategory
   );
+  const selectedBrand = brandState((state) => state.selectedBrand);
   const [menu, setMenu] = useState<Menu[]>(menuData);
   const [totalCount, setTotalCount] = useState(1);
   const sortBy = sortByState((state) => state.sortBy);
@@ -86,7 +88,7 @@ export default function Products({ params }: { params: { category: string } }) {
       const fetchData = async () => {
         try {
           const response = await axios.get(
-            `/api/allProducts?category=${title}&subcategory=${selectedCategory}&sortby=${sortBy}&minprice=${minPrice}&maxprice=${maxPrice}&page=${currentPage}`
+            `/api/allProducts?category=${title}&subcategory=${selectedCategory}&sortby=${sortBy}&minprice=${minPrice}&maxprice=${maxPrice}&page=${currentPage}&brand=${selectedBrand}`
           );
           if (!response.data.data) {
             throw new Error("No data received");
@@ -102,7 +104,15 @@ export default function Products({ params }: { params: { category: string } }) {
       };
       fetchData();
     }
-  }, [title, selectedCategory, sortBy, minPrice, maxPrice, currentPage]); // Добавлены title и currentPage в зависимости
+  }, [
+    title,
+    selectedCategory,
+    sortBy,
+    minPrice,
+    maxPrice,
+    currentPage,
+    selectedBrand,
+  ]);
 
   if (!menuLoader) {
     return (

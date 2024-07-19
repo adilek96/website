@@ -271,7 +271,7 @@ const Header = () => {
           </div>
         </div>
         <div
-          className={`submenu  absolute right-3 z-50 rounded-md  bg-white   p-4 opacity-0 shadow-lg transition-[top]  duration-300 dark:bg-dark lg:right-32  ${
+          className={`submenu  absolute right-1 z-50 rounded-md bg-white  p-4   opacity-0 shadow-lg transition-[top] duration-300  dark:bg-dark md:right-2 lg:right-32  ${
             shopCardTrigger ? "visible top-[100%]   opacity-100" : "invisible"
           }`}
         >

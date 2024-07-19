@@ -10,6 +10,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const paramsCategory = searchParams.get('category') as string | null;
   const paramsSort = searchParams.get('sortby') as string | null;
+  const brand = searchParams.get('brand') as string | null;
   const paramsSubcategory = searchParams.get('subcategory') as string | null;
   const paramsMinPrice = parseInt(searchParams.get('minprice'));
   const paramsMaxPrice = parseInt(searchParams.get('maxprice'));
@@ -38,12 +39,17 @@ export async function GET(request: Request) {
   const sort = sortIs();
    
     await connectMongoDB();
+
+   
     try{
       const query: any = {};
-      console.log(paramsCategory)
+      
       if (paramsCategory && paramsCategory !== "All products") query.category = category;
       if (paramsSubcategory && paramsSubcategory !== 'All') {
         query.subcategory = paramsSubcategory;
+      }
+      if (brand && brand !== 'All') {
+        query.brand = brand;
       }
       if (paramsMinPrice) query.price = { ...query.price, $gte: paramsMinPrice };
       if (paramsMaxPrice && paramsMaxPrice !== 0) query.price = { ...query.price, $lte: paramsMaxPrice };

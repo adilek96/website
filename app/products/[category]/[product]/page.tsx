@@ -6,6 +6,7 @@ import { connectMongoDB } from "@/lib/mongodb";
 import Product from "@/models/product";
 import mongoose from "mongoose";
 import Image from "next/image";
+import Brand from "@/models/brand";
 
 async function getProduct(id) {
   await connectMongoDB();
@@ -32,8 +33,20 @@ async function getProduct(id) {
   }
 }
 
+async function getImage(brand) {
+  await connectMongoDB();
+  try {
+    const data = await Brand.findOne({ name: brand });
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to load image");
+  }
+}
+
 export default async function ProductPage({ params }) {
   let data;
+  let image;
 
   try {
     data = await getProduct(params.product);
@@ -48,6 +61,12 @@ export default async function ProductPage({ params }) {
         </div>
       </div>
     );
+  }
+
+  try {
+    image = await getImage(data.brand);
+  } catch (error) {
+    image = "/images/logo/logo.svg";
   }
 
   return (
@@ -102,10 +121,21 @@ export default async function ProductPage({ params }) {
                       Buy now
                     </button>
                   </div>
+                  <div>
+                    {data.brand ? (
+                      <Image
+                        src={image.image}
+                        width={200}
+                        height={200}
+                        alt={image.name}
+                        className="my-5"
+                      />
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className=" w-[100%] rounded-sm bg-body-color bg-opacity-20 px-5 py-10 dark:bg-primary dark:bg-opacity-10">
+            <div className=" mt-8 w-[100%] rounded-sm bg-body-color bg-opacity-20 px-5 py-10 dark:bg-primary dark:bg-opacity-10">
               <div className="mb-10 ">
                 <h2 className="mb-8 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight">
                   Description

@@ -1,18 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import menuData from "../Header/menuData";
+import { useEffect, useState } from "react";
 import {
   sortByState,
   selectedCategoryState,
   minPriceState,
   maxPriceState,
+  brandState,
 } from "@/store/sortingStore";
+import axios from "axios";
 
 const SortFilter = ({ data }) => {
   // submenu handler
   const [openFilter, setOpenFilter] = useState(false);
   const [openSort, setOpenSort] = useState(false);
+  const [submenu, setSubmenu] = useState([]);
+  const [brand, setBrand] = useState([]);
 
   const selectedCategory = selectedCategoryState(
     (state) => state.selectedCategory
@@ -20,6 +23,8 @@ const SortFilter = ({ data }) => {
   const setSelectedCategory = selectedCategoryState(
     (state) => state.setSelectedCategory
   );
+  const selectedBrand = brandState((state) => state.selectedBrand);
+  const setSelectedBrand = brandState((state) => state.setSelectedBrand);
   const sortBy = sortByState((state) => state.sortBy);
   const setSortBy = sortByState((state) => state.setSortBy);
   const minPrice = minPriceState((state) => state.minPrice);
@@ -27,7 +32,35 @@ const SortFilter = ({ data }) => {
   const maxPrice = maxPriceState((state) => state.maxPrice);
   const setMaxPrice = maxPriceState((state) => state.setMaxPrice);
 
-  const selectedItem = menuData[1].submenu.find((item) => item.title === data);
+  const selectedItem =
+    data !== "All products" && submenu.find((item) => item.title === data);
+
+  useEffect(() => {
+    const fetchSubmenuData = async () => {
+      try {
+        const response = await axios.get("/api/category");
+        const submenuData = response.data;
+
+        setSubmenu(submenuData.data);
+      } catch (error) {
+        console.error("Failed to fetch submenu data:", error);
+      }
+    };
+
+    const fetchBrands = async () => {
+      try {
+        const response = await axios.get("/api/brands");
+        const brands = response.data;
+
+        setBrand(brands.data);
+      } catch (error) {
+        console.error("Failed to fetch submenu data:", error);
+      }
+    };
+
+    fetchSubmenuData();
+    fetchBrands();
+  }, []);
 
   const openFilterHandler = () => {
     if (openFilter === false && openSort === true) {
@@ -51,8 +84,8 @@ const SortFilter = ({ data }) => {
 
   return (
     <>
-      <div className="mx-2 mb-6  flex w-[80vw] flex-wrap items-center justify-end gap-3 rounded-sm py-3 dark:bg-primary dark:bg-opacity-5">
-        <div className=" flex w-[80px] flex-nowrap items-center justify-center">
+      <div className="mx-2 mb-6  h-fit w-[80%]   gap-3 rounded-sm py-3 dark:bg-primary dark:bg-opacity-5">
+        <div className="flex justify-end">
           <button
             onClick={openSortHandler}
             className="mx-2 flex h-7 w-7 items-center justify-center rounded-lg hover:opacity-70 dark:hover:bg-modal"
@@ -98,92 +131,125 @@ const SortFilter = ({ data }) => {
             </svg>
           </button>
         </div>
-        <div
-          className={` ${
-            openSort ? "block" : "hidden"
-          } transition-all duration-300`}
-        >
-          <div className="flex h-11 w-max snap-start flex-nowrap items-center justify-center gap-3">
-            <p className="whitespace-nowrap pl-5">Sort by:</p>
-            <select
-              name="Sort"
-              onChange={(e) => setSortBy(e.target.value)}
-              defaultValue={String(sortBy)}
-              className="w-[150px] rounded-md border border-transparent px-3 py-1 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
-            >
-              <option
-                value="DateDown"
-                className={sortBy === "DateDown" ? "text-yellow" : undefined}
-              >
-                Date &#8595;
-              </option>
-              <option
-                value="DateUp"
-                className={sortBy === "DateUp" ? "text-yellow" : undefined}
-              >
-                Date &#8593;
-              </option>
-              <option
-                value="Name"
-                className={sortBy === "Name" ? "text-yellow" : undefined}
-              >
-                Name
-              </option>
-              <option
-                value="PriceUp"
-                className={sortBy === "PriceUp" ? "text-yellow" : undefined}
-              >
-                Price &#8593;
-              </option>
-              <option
-                value="PriceDown"
-                className={sortBy === "PriceDown" ? "text-yellow" : undefined}
-              >
-                Price &#8595;
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <div className={` ${openFilter ? "block" : "hidden"}`}>
-          <div className="ml-5 flex h-11 w-max snap-end flex-nowrap items-center justify-center gap-3">
-            <p className="whitespace-nowrap text-center">Filter by:</p>
-            {selectedItem && selectedItem.submenu ? (
+        <div className=" flex-wrapp flex w-[90%] items-center justify-end">
+          <div
+            className={` ${
+              openSort ? "block" : "hidden"
+            } mt-5 transition-all duration-300`}
+          >
+            <div className="flex  w-full snap-start flex-wrap items-center justify-center gap-3 pb-3">
+              <p className="whitespace-nowrap pl-5">Sort by:</p>
               <select
-                name="category"
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                defaultValue={String(selectedCategory)}
+                name="Sort"
+                onChange={(e) => setSortBy(e.target.value)}
+                defaultValue={String(sortBy)}
                 className="w-[150px] rounded-md border border-transparent px-3 py-1 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
               >
-                <option value="All">Subcategory</option>
-                {selectedItem.submenu.map((sub, index) => (
-                  <option
-                    key={index}
-                    value={sub.title}
-                    className="whitespace-nowrap"
-                  >
-                    {sub.title}
-                  </option>
-                ))}
+                <option
+                  value="DateDown"
+                  className={sortBy === "DateDown" ? "text-yellow" : undefined}
+                >
+                  Date &#8595;
+                </option>
+                <option
+                  value="DateUp"
+                  className={sortBy === "DateUp" ? "text-yellow" : undefined}
+                >
+                  Date &#8593;
+                </option>
+                <option
+                  value="Name"
+                  className={sortBy === "Name" ? "text-yellow" : undefined}
+                >
+                  Name
+                </option>
+                <option
+                  value="PriceUp"
+                  className={sortBy === "PriceUp" ? "text-yellow" : undefined}
+                >
+                  Price &#8593;
+                </option>
+                <option
+                  value="PriceDown"
+                  className={sortBy === "PriceDown" ? "text-yellow" : undefined}
+                >
+                  Price &#8595;
+                </option>
               </select>
-            ) : null}
-            <div className="flex items-center justify-center pr-5">
-              <p className="pr-3">Price:</p>
-              <input
-                type="number"
-                min={0}
-                value={+minPrice}
-                onChange={(e) => setMinPrice(+e.target.value)}
-                className="w-14 rounded-md bg-body-color pl-2 focus:bg-yellow"
-              />
-              <p className="px-2">-</p>
-              <input
-                type="number"
-                min={0}
-                value={+maxPrice}
-                onChange={(e) => setMaxPrice(+e.target.value)}
-                className="w-14 rounded-md bg-body-color pl-2 focus:bg-yellow"
-              />
+            </div>
+          </div>
+
+          <div className={` ${openFilter ? "block" : "hidden"}`}>
+            <div className="mb-5 ml-5 flex h-fit w-full snap-end flex-wrap items-center justify-center gap-3">
+              <p className="whitespace-nowrap text-center ">Filter by:</p>
+              {selectedItem ? (
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <p className=" whitespace-nowrap  text-center text-sm">
+                    Subcategory:
+                  </p>
+                  <select
+                    name="category"
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    defaultValue={String(selectedCategory)}
+                    className="w-[150px] rounded-md border border-transparent px-3 py-1 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+                  >
+                    <option value="All">All</option>
+                    {selectedItem.submenu.map((sub, index) => (
+                      <option
+                        key={index}
+                        value={sub.title}
+                        className="whitespace-nowrap"
+                      >
+                        {sub.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
+              <div className="flex flex-wrap items-center  justify-center gap-2 pr-5">
+                <p className="  text-sm">Price:</p>
+                <div className="flex  items-center justify-center">
+                  <input
+                    type="number"
+                    id="minprice"
+                    min={0}
+                    value={+minPrice}
+                    onChange={(e) => setMinPrice(+e.target.value)}
+                    className="w-14 rounded-md bg-body-color pl-2 focus:bg-yellow"
+                  />
+                  <p className="px-2">-</p>
+                  <input
+                    type="number"
+                    id="maxprice"
+                    min={0}
+                    value={+maxPrice}
+                    onChange={(e) => setMaxPrice(+e.target.value)}
+                    className="w-14 rounded-md bg-body-color pl-2 focus:bg-yellow"
+                  />
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <p className=" whitespace-nowrap  text-center text-sm">
+                    Brand:
+                  </p>
+                  <select
+                    name="brand"
+                    onChange={(e) => setSelectedBrand(e.target.value)}
+                    defaultValue={String(selectedBrand)}
+                    className="w-[150px] rounded-md border border-transparent px-3 py-1 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-input-color dark:shadow-signUp"
+                  >
+                    <option value="All">All</option>
+                    {brand.map((item, index) => (
+                      <option
+                        key={index}
+                        value={item.name}
+                        className="whitespace-nowrap"
+                      >
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
         </div>
