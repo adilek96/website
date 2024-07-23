@@ -9,6 +9,7 @@ interface ExtendedSessionUser {
   id?: string;
   name?: string;
   email?: string;
+  role?: string;
   phone?: string;
   birthday?: Date;
   image?: string;
@@ -105,6 +106,7 @@ export const authConfig: AuthOptions = {
           phone: user.phone,
           birthday: user.birthday,
           image: user.image,
+          role: user.role
         } as ExtendedSessionUser;
       }
 

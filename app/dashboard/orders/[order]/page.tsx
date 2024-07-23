@@ -1,12 +1,28 @@
-import React from "react";
-import { format } from "date-fns";
+import { fetchAllOrders } from "@/lib/data";
 import Link from "next/link";
+import { format } from "date-fns";
 import { cancelOrderAction } from "@/app/actions/cancelOrderAction";
+import StatusSelecter from "@/components/StatusSelecter";
 
-export default function OrdersList({ data, session }) {
+export default async function DashboardOrders({
+  params,
+}: {
+  params: { order: string };
+}) {
+  const type = params.order;
+  let orders = await fetchAllOrders({ type });
+
+  if (orders.pdata.length === 0) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <p>You dont have any orders</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="m-10  flex h-fit w-full cursor-default flex-wrap justify-center gap-5  text-xs">
-      {data.map((item) => {
+    <>
+      {orders.pdata.map((item, i) => {
         return (
           <div
             key={item._id}
@@ -17,16 +33,25 @@ export default function OrdersList({ data, session }) {
               <span>{item._id}</span>
             </div>
 
-            <div>
-              <span className="text-md">Status: </span>
-              <span
-                className={
-                  item.status === "Canceled" ? "text-red" : "text-green"
-                }
-              >
-                {item.status}
-              </span>
-            </div>
+            {item.status !== "Cancelled" ? (
+              <StatusSelecter
+                userId={item.userId}
+                id={item._id}
+                status={item.status}
+              />
+            ) : (
+              <div>
+                <span className="text-md">Status: </span>
+                <span
+                  className={
+                    item.status === "Cancelled" ? "text-red" : "text-green"
+                  }
+                >
+                  {item.status}
+                </span>
+              </div>
+            )}
+
             <div>
               <span className="text-md">Payment method: </span>
               <span>{item.paymentMethod}</span>
@@ -49,7 +74,7 @@ export default function OrdersList({ data, session }) {
                 <input
                   type="hidden"
                   name="userId"
-                  value={String(session.user.id)}
+                  value={String(item.userId)}
                   readOnly
                 />
                 <input
@@ -74,6 +99,6 @@ export default function OrdersList({ data, session }) {
           </div>
         );
       })}
-    </div>
+    </>
   );
 }

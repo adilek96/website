@@ -21,7 +21,7 @@ export default async function OrderPage({
   }
   return (
     <div className="flex items-center justify-center">
-      <OrdersList data={orders.orders} />
+      <OrdersList data={orders.orders} session={session} />
     </div>
   );
 }
