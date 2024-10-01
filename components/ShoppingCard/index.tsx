@@ -217,7 +217,7 @@ export default function ShoppingCard({ setShopCardTrigger }) {
                       </div>
                       <p className="font-bold">
                         <Link href={`/products/${item.category}/${item._id}`}>
-                          {item.name}
+                          {item.name.substring(0, 25)}
                         </Link>
                       </p>
                     </div>

@@ -7,7 +7,6 @@ import Product from "@/models/product";
 import mongoose from "mongoose";
 import Image from "next/image";
 import Brand from "@/models/brand";
-import AddToCardBtn from "@/components/AddToCardBtn";
 
 async function getProduct(id) {
   await connectMongoDB();
@@ -115,7 +114,9 @@ export default async function ProductPage({ params }) {
                     </span>
                   </div>
                   <div className="mt-5 flex gap-5">
-                    <AddToCardBtn productId={data.id} />
+                    <button className="rounded-lg bg-primary px-5 py-2.5 text-center text-lg font-medium transition-all duration-300 ease-in hover:opacity-80">
+                      Add to cart
+                    </button>
                     <button className="rounded-lg bg-yellow px-5 py-2.5 text-center text-lg font-medium transition-all duration-300 ease-in hover:opacity-80">
                       Buy now
                     </button>
