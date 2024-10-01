@@ -107,7 +107,7 @@ export default function ProductCard({ products }: { products: any }) {
                   .replace(/ /g, "-")}/${items._id}`}
               >
                 <h5 className=" text-xl font-semibold tracking-tight ">
-                  {items.name}
+                  {items.name.trim(0, 25)}
                 </h5>
               </Link>
 

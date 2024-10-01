@@ -2,7 +2,7 @@ import { ticketsAction } from "@/app/actions/ticketsAction";
 import NewsLatterBox from "./NewsLatterBox";
 
 const serviceType = [
-  "Help to chose",
+  "Help to choose",
   "Desing",
   "Installation and setting",
   "Repairing",
@@ -128,6 +128,7 @@ export default function Contact({ session, page }: any) {
                     }
                     readOnly
                   />
+
                   <div className="w-full px-4">
                     <button className="rounded-md bg-primary px-9 py-4 text-base font-medium text-white transition duration-300 ease-in-out hover:bg-opacity-80 hover:shadow-signUp">
                       Submit Ticket
